@@ -10,6 +10,6 @@ class GuzzleController extends Controller
     {
         $env = env('API_KEY');
 
-        return view('layouts.index');
+        return view('index');
     }
 }
