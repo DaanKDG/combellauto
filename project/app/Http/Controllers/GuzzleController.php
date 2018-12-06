@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Client as GuzzleClient;
 use App\CombellClient;
-
+use GuzzleHttp\Client;
 class GuzzleController extends Controller
 {
 	protected $api_key;
@@ -21,7 +21,7 @@ class GuzzleController extends Controller
     protected function hmacHandler() {
     	$key = $this->api_key;
     	$req_method = 'get';
-    	$path_query = 'https://api.combell.com/v2/accounts';
+    	$path_query = 'https://api.combell.com/';
     	$timestamp = time();
     	$nonce = substr(md5(uniqid(mt_rand(), true)), 0, 8);
     	$content = '';
@@ -44,8 +44,9 @@ class GuzzleController extends Controller
 
     	require base_path() . '\vendor\autoload.php';
 
-    	$hmac = $this->hmacHandler();
-    	dd($hmac);
+    	// $hmac = $this->hmacHandler();
+		// dd($hmac);
+		dd($this->getTestData());
 
         $client = new CombellClient (
 		    [
@@ -57,13 +58,14 @@ class GuzzleController extends Controller
 		);
 
 		// Get detail of a hosting account
-		$response = $client->get('/v2/kdgautocombell/mtantwerp.eu');
-
-		// Dump response
-		var_dump(
-		    json_decode($response->getBody()->getContents())
-		);
-
+	
         return view('index');
-    }
+	}
+    public function getTestData() {
+        $client = new Client();
+        $uri = 'https://api.combell.com/v2/accounts';
+        $header = ['headers' => ['Authorization' => $this->hmacHandler()]];
+        $res = $client->get($uri, $header);
+        return json_decode($res->getBody()->getContents(), true);
+	}
 }
