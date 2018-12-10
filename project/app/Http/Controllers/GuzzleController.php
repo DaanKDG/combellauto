@@ -46,7 +46,22 @@ class GuzzleController extends Controller
         $hmac = $this->hmacHandler($req_method, $path_query);
         $data = $this->getData($hmac, $uri);
 
-        return view('index')->with('accounts', $data);
+        //filter out only mtantwerp.eu domains
+        $all_accounts = [];
+        foreach ($data as $account) {
+            $domain = $account["domain_name"];
+
+            if (strpos($domain, 'mtantwerp.eu') !== false) {
+                //add 'name' to data
+                $name = str_replace(".mtantwerp.eu", "", $domain);
+                $name = str_replace(".", "-", $name);
+                $account['name'] = $name;
+                array_push($all_accounts, $account);
+            }
+        }
+
+        //return view
+        return view('index')->with('accounts', $all_accounts);
 	}
 
     public function getData($hmac, $uri) {

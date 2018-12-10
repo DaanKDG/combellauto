@@ -15,9 +15,6 @@
 	    	<tr>
 	    		<th scope="col">Servicepack ID</th>
 	      		<th scope="col">Domain Name</th>
-	      		<th scope="col">Size</th>
-	      		<th scope="col">Inactive</th>
-	      		<th scope="col">Delete</th>
 	    	</tr>
 	  	</thead>
 	  	<tbody>
@@ -26,7 +23,9 @@
 
 		    <tr>
 	      		<th scope="row">{{ $account["servicepack_id"] }}</th>
-	      		<td>{{ $account["domain_name"] }}</td>
+	      		<td>
+	      			<a href="{{ url('/' . $account['name'] ) }}">{{ $account["domain_name"] }}</a>
+	      		</td>
 	    	</tr>
 
 		    @endforeach
