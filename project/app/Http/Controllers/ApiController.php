@@ -7,8 +7,9 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Client as GuzzleClient;
 use App\CombellClient;
 use GuzzleHttp\Client;
+use App\Http\Resources\Hosting as HostingResource;
 
-class GuzzleController extends Controller
+class ApiController extends Controller
 {
 	protected $api_key;
 	protected $api_secret;
@@ -60,17 +61,17 @@ class GuzzleController extends Controller
             }
         }
 
-		//return view
-		
-        return view('index')->with('accounts', $all_accounts);
+        //return view
+        return $all_accounts;
 	}
     
     public function detail($name) {
-		dd($name);
+
+
         $domain = str_replace("-", ".", $name);
         $domain .= ".mtantwerp.eu";
         $name = str_replace("-", " ", $name);
-
+        
         //get account details
         $req_method_details = 'get';
         $path_query_details = '/v2/linuxhostings/' . $domain;
@@ -80,8 +81,10 @@ class GuzzleController extends Controller
         $data_details = $this->getData($hmac_details, $uri_details);
 
         //return view
-        return view('detail')->with('data', $data_details)->with('name', $name);
+        // return view('detail')->with('data', $data_details)->with('name', $name);
+        return $data_details;
     }
+
 
     public function getData($hmac, $uri) {
         $client = new Client();

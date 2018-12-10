@@ -12,6 +12,7 @@
 */
 
 Route::get('/', 'GuzzleController@index')->name('index');
+Route::get('/testaccounts', 'PageController@index');
 Route::get('/detail/{name}', 'GuzzleController@detail');
 
 Auth::routes();
