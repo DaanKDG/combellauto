@@ -63,6 +63,24 @@ class GuzzleController extends Controller
         //return view
         return view('index')->with('accounts', $all_accounts);
 	}
+    
+    public function detail($name) {
+
+        $domain = str_replace("-", ".", $name);
+        $domain .= ".mtantwerp.eu";
+        $name = str_replace("-", " ", $name);
+
+        //get account details
+        $req_method_details = 'get';
+        $path_query_details = '/v2/linuxhostings/' . $domain;
+        $uri_details = 'https://api.combell.com' . $path_query_details;
+
+        $hmac_details = $this->hmacHandler($req_method_details, $path_query_details);
+        $data_details = $this->getData($hmac_details, $uri_details);
+
+        //return view
+        return view('detail')->with('data', $data_details)->with('name', $name);
+    }
 
     public function getData($hmac, $uri) {
         $client = new Client();

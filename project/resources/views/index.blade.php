@@ -24,7 +24,7 @@
 		    <tr>
 	      		<th scope="row">{{ $account["servicepack_id"] }}</th>
 	      		<td>
-	      			<a href="{{ url('/' . $account['name'] ) }}">{{ $account["domain_name"] }}</a>
+	      			<a href="{{ url('/detail/' . $account['name'] ) }}">{{ $account["domain_name"] }}</a>
 	      		</td>
 	    	</tr>
 
