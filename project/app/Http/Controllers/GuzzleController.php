@@ -40,22 +40,11 @@ class GuzzleController extends Controller
     public function index() {
         //get all accounts
         $req_method = 'get';
-        $path_query = '/v2/accounts?take=200';
+        $path_query = '/v2/linuxhostings?take=200';
         $uri = 'https://api.combell.com' . $path_query;
 
         $hmac = $this->hmacHandler($req_method, $path_query);
         $data = $this->getData($hmac, $uri);
-
-        //filter out duplicates based on "identifier" key
-        $_data = array();
-        foreach ($data as $v) {
-          if (isset($_data[$v['identifier']])) {
-            // found duplicate
-            continue;
-          }
-          $_data[$v['identifier']] = $v;
-        }
-        $data = array_values($_data);
 
         return view('index')->with('accounts', $data);
 	}

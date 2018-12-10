@@ -13,8 +13,11 @@
 	<table class="table">
 		<thead>
 	    	<tr>
-	    		<th scope="col">ID</th>
-	      		<th scope="col">Identifier</th>
+	    		<th scope="col">Servicepack ID</th>
+	      		<th scope="col">Domain Name</th>
+	      		<th scope="col">Size</th>
+	      		<th scope="col">Inactive</th>
+	      		<th scope="col">Delete</th>
 	    	</tr>
 	  	</thead>
 	  	<tbody>
@@ -22,8 +25,8 @@
 	  		@foreach ($accounts as $account)
 
 		    <tr>
-	      		<th scope="row">{{ $account["id"] }}</th>
-	      		<td>{{ $account["identifier"] }}</td>
+	      		<th scope="row">{{ $account["servicepack_id"] }}</th>
+	      		<td>{{ $account["domain_name"] }}</td>
 	    	</tr>
 
 		    @endforeach
