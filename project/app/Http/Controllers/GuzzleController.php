@@ -19,10 +19,10 @@ class GuzzleController extends Controller
         $this->api_secret = env('API_SECRET');
     }
 
-    protected function hmacHandler() {
+    protected function hmacHandler($req_method, $path_query, $content='') {
     	$key = $this->api_key;
-    	$req_method = 'get';
-    	$path_query = '/v2/accounts';
+    	$req_method = $req_method;
+    	$path_query = $path_query;
     	$timestamp = time();
     	$nonce = rand(100000, 900000);
     	$content = '';
@@ -38,13 +38,19 @@ class GuzzleController extends Controller
     }
     
     public function index() {
-	
-		$hmac = $this->hmacHandler();
-		dd($this->getTestData($hmac));
+        //get all accounts
+        $req_method = 'get';
+        $path_query = '/v2/accounts?take=200';
+        $uri = 'https://api.combell.com' . $path_query;
+
+        $hmac = $this->hmacHandler($req_method, $path_query);
+        $data = $this->getData($hmac, $uri);
+
+		dd($data);
 	}
-    public function getTestData($hmac) {
+
+    public function getData($hmac, $uri) {
         $client = new Client();
-        $uri = 'https://api.combell.com/v2/accounts';
         $header = ['headers' => ['Authorization' => $hmac]];
         $res = $client->get($uri, $header);
         return json_decode($res->getBody()->getContents(), true);
