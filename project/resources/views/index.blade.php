@@ -10,14 +10,26 @@
 
 <div class="container">
 
-    @foreach ($accounts as $account)
+	<table class="table">
+		<thead>
+	    	<tr>
+	    		<th scope="col">ID</th>
+	      		<th scope="col">Identifier</th>
+	    	</tr>
+	  	</thead>
+	  	<tbody>
 
-    <div class="account">
-    	<h3>Account: {{ $account["identifier"] }} </h3>
-    	<p>ID = {{ $account["id"] }}</p>
-    </div>
+	  		@foreach ($accounts as $account)
 
-    @endforeach
+		    <tr>
+	      		<th scope="row">{{ $account["id"] }}</th>
+	      		<td>{{ $account["identifier"] }}</td>
+	    	</tr>
+
+		    @endforeach
+
+	  	</tbody>
+	</table>
 
 </div>
 
