@@ -46,7 +46,7 @@ class GuzzleController extends Controller
         $hmac = $this->hmacHandler($req_method, $path_query);
         $data = $this->getData($hmac, $uri);
 
-		dd($data);
+        return view('index')->with('accounts', $data);
 	}
 
     public function getData($hmac, $uri) {

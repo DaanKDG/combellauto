@@ -7,7 +7,16 @@
 </div>
 
 <div class="container">
-    <test></test>
+
+    @foreach ($accounts as $account)
+
+    <div class="account">
+    	<h3>Account: {{ $account["identifier"] }} </h3>
+    	<p>ID = {{ $account["id"] }}</p>
+    </div>
+
+    @endforeach
+
 </div>
 
 @endsection
