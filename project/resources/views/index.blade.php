@@ -2,8 +2,10 @@
 
 @section('content')
 
-<div class="jumbotron text-center">
-    <h1 style='font-weight:bold;'>INDEX</h1>
+<div class="jumbotron">
+	<div class="container">
+		<h1 class="display-4">INDEX</h1>
+	</div>
 </div>
 
 <div class="container">

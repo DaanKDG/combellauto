@@ -46,6 +46,17 @@ class GuzzleController extends Controller
         $hmac = $this->hmacHandler($req_method, $path_query);
         $data = $this->getData($hmac, $uri);
 
+        //filter out duplicates based on "identifier" key
+        $_data = array();
+        foreach ($data as $v) {
+          if (isset($_data[$v['identifier']])) {
+            // found duplicate
+            continue;
+          }
+          $_data[$v['identifier']] = $v;
+        }
+        $data = array_values($_data);
+
         return view('index')->with('accounts', $data);
 	}
 
