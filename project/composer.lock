@@ -4,8 +4,38 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "26c27c3f93b3bdb2643e7e1d10bcd739",
+    "content-hash": "6608d5d88d8002c64cc17c79ce9f0f7c",
     "packages": [
+        {
+            "name": "combell/combell-api",
+            "version": "v1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Combell/combell-api.git",
+                "reference": "7a459beb93b53c108540e0de076dfb4f553573e8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Combell/combell-api/zipball/7a459beb93b53c108540e0de076dfb4f553573e8",
+                "reference": "7a459beb93b53c108540e0de076dfb4f553573e8",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": "~6.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~4.8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "description": "Combell API for customers with direct activation",
+            "time": "2016-09-12T13:41:18+00:00"
+        },
         {
             "name": "dnoegel/php-xdg-base-dir",
             "version": "0.1",
