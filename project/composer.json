@@ -12,6 +12,7 @@
         "combell/combell-api": "^1.0",
         "fideloper/proxy": "^4.0",
         "guzzlehttp/guzzle": "^6.3",
+        "hackzilla/password-generator": "^1.4",
         "laravel/framework": "5.7.*",
         "laravel/tinker": "^1.0"
     },

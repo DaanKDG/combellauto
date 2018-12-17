@@ -10,4 +10,8 @@ class PageController extends Controller
     {
         return view('vue.index');
     }
+    public function create()
+    {
+        return view('create');
+    }
 }

@@ -7,7 +7,7 @@ use GuzzleHttp\HandlerStack;
 use GuzzleHttp\Client as GuzzleClient;
 use App\CombellClient;
 use GuzzleHttp\Client;
-
+use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 
 class ApiController extends Controller
 {
@@ -26,6 +26,20 @@ class ApiController extends Controller
         })->filter()->all();
 
         return $accounts;
+    }
+    public function create()
+    {
+        $generator = new ComputerPasswordGenerator();
+        $generator->setUppercase()->setLowercase()->setNumbers()->setSymbols(false)->setLength(20);
+        $password = $generator->generatePassword();
+
+        $body = new \stdClass();
+        $body->servicepack_id = 14491;
+        $body->identifier = 'daan.test22.mtantwerp.eu';
+        $body->ftp_password = $password;
+        $path = '/v2/accounts';
+        
+        dd('statuscode: ' . $this->postData($path, $body));   
     }
 
     public function detail($name)
@@ -51,5 +65,18 @@ class ApiController extends Controller
         );
         $res = $client->get($path_query);
         return json_decode($res->getBody()->getContents(), true);
+    }
+
+    public function postData($path_query, $body)
+    {
+        $client = new \Combell\Client(
+            [
+                'base_uri' => env('BASE_URI'),
+                'combell_api_key' => env('API_KEY'),
+                'combell_api_secret' => env('API_SECRET')
+            ]
+        );
+        $res= $client->post($path_query, ['json' => $body]);
+        return $res->getStatusCode();
     }
 }

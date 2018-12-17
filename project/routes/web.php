@@ -12,4 +12,6 @@
 */
 
 Route::get('/', 'PageController@index')->name('index');
+Route::get('/create', 'PageController@create')->name('create');
+Route::get('/create/account', 'ApiController@create')->name('api.create');
 Auth::routes();
