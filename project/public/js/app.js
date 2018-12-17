@@ -47452,9 +47452,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      accountsLoaded: false,
       accounts: [],
       account: {
         domain_name: null,
@@ -47471,35 +47484,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   },
   methods: {
     getAccounts: function getAccounts() {
-      var _this = this;
+      var _this2 = this;
 
       axios.get('/api/accounts', {
         headers: {
           'Accept': 'application/json'
         }
       }).then(function (res) {
-        _this.accounts = res.data;
+        _this2.accounts = res.data;
       }).catch(function (error) {
         return console.log(error);
       });
     },
     showDetails: function showDetails(account) {
-      var _this2 = this;
+      var _this3 = this;
 
       axios.get("/api/accounts/".concat(account.name), {
         headers: {
           'Accept': 'application/json'
         }
       }).then(function (res) {
-        _this2.account.domain_name = res.data.domain_name;
-        _this2.account.servicepack_id = res.data.servicepack_id;
-        _this2.account.ip = res.data.ip;
-        _this2.account.max_size = res.data.max_size;
-        _this2.account.actual_size = res.data.actual_size;
+        _this3.account.domain_name = res.data.domain_name;
+        _this3.account.servicepack_id = res.data.servicepack_id;
+        _this3.account.ip = res.data.ip;
+        _this3.account.max_size = res.data.max_size;
+        _this3.account.actual_size = res.data.actual_size;
       }).catch(function (error) {
         return console.log(error);
       });
     }
+  },
+  updated: function updated() {
+    this.$nextTick(function () {
+      //load search element once data is loaded
+      var _this = this;
+
+      setTimeout(function () {
+        _this.accountsLoaded = true;
+        var input = document.getElementById('search');
+        var awesome = new Awesomplete(input, {
+          list: "#account_list"
+        });
+      }, 100);
+    });
   }
 });
 
@@ -47511,117 +47538,126 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "wrapper" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c("div", { staticClass: "container" }, [
-      _c("div", { staticClass: "row" }, [
-        _c("div", { staticClass: "col-md-6" }, [
-          _c("table", { staticClass: "table" }, [
-            _vm._m(1),
-            _vm._v(" "),
-            _c(
-              "tbody",
-              _vm._l(_vm.accounts, function(account) {
-                return _c("tr", { key: account.id }, [
-                  _c("th", { attrs: { scope: "row" } }, [
-                    _vm._v(_vm._s(account.servicepack_id))
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c("a", { attrs: { href: "#" } }, [
-                      _vm._v(_vm._s(account.domain_name))
-                    ])
-                  ]),
-                  _vm._v(" "),
-                  _c("td", [
-                    _c(
-                      "a",
-                      {
-                        staticClass: "btn btn-outline-info",
-                        on: {
-                          click: function($event) {
-                            _vm.showDetails(account)
-                          }
-                        }
-                      },
-                      [_vm._v("Details")]
-                    )
-                  ])
-                ])
+  return _c("div", { staticClass: "container" }, [
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _vm.accountsLoaded
+          ? _c("div", { staticClass: "form-group" }, [
+              _c("label", { attrs: { for: "search" } }, [_vm._v("Search")]),
+              _vm._v(" "),
+              _c("input", {
+                staticClass: "form-control",
+                attrs: { type: "text", id: "search" }
               })
-            )
-          ])
-        ]),
+            ])
+          : _vm._e(),
         _vm._v(" "),
-        _c("div", { staticClass: "col-md-6" }, [
-          this.account.domain_name
-            ? _c("div", { staticClass: "card" }, [
-                _c("div", { staticClass: "card-header" }, [
-                  _vm._v(
-                    "\r\n                       Hosting details\r\n                    "
-                  )
+        _c(
+          "ul",
+          { staticClass: "d-none", attrs: { id: "account_list" } },
+          _vm._l(_vm.accounts, function(account) {
+            return _c("li", { key: account.id }, [_vm._v(_vm._s(account.name))])
+          })
+        )
+      ])
+    ]),
+    _vm._v(" "),
+    _c("div", { staticClass: "row" }, [
+      _c("div", { staticClass: "col-md-6" }, [
+        _c("table", { staticClass: "table" }, [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.accounts, function(account) {
+              return _c("tr", { key: account.id }, [
+                _c("th", { attrs: { scope: "row" } }, [
+                  _vm._v(_vm._s(account.servicepack_id))
                 ]),
                 _vm._v(" "),
-                _c("div", { staticClass: "card-body" }, [
-                  _c("table", { staticClass: "table" }, [
-                    _c("tbody", [
-                      _c("tr", [
-                        _c("th", { attrs: { scope: "row" } }, [
-                          _vm._v("Domain Name")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(this.account.domain_name))])
+                _c("td", [
+                  _c("a", { attrs: { href: "#" } }, [
+                    _vm._v(_vm._s(account.domain_name))
+                  ])
+                ]),
+                _vm._v(" "),
+                _c("td", [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-outline-info",
+                      on: {
+                        click: function($event) {
+                          _vm.showDetails(account)
+                        }
+                      }
+                    },
+                    [_vm._v("Details")]
+                  )
+                ])
+              ])
+            })
+          )
+        ])
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "col-md-6" }, [
+        this.account.domain_name
+          ? _c("div", { staticClass: "card" }, [
+              _c("div", { staticClass: "card-header" }, [
+                _vm._v("\n                   Hosting details\n                ")
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "card-body" }, [
+                _c("table", { staticClass: "table" }, [
+                  _c("tbody", [
+                    _c("tr", [
+                      _c("th", { attrs: { scope: "row" } }, [
+                        _vm._v("Domain Name")
                       ]),
                       _vm._v(" "),
-                      _c("tr", [
-                        _c("th", { attrs: { scope: "row" } }, [
-                          _vm._v("Servicepack ID")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(this.account.servicepack_id))])
+                      _c("td", [_vm._v(_vm._s(this.account.domain_name))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", { attrs: { scope: "row" } }, [
+                        _vm._v("Servicepack ID")
                       ]),
                       _vm._v(" "),
-                      _c("tr", [
-                        _c("th", { attrs: { scope: "row" } }, [
-                          _vm._v("Max size")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(this.account.max_size))])
+                      _c("td", [_vm._v(_vm._s(this.account.servicepack_id))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", { attrs: { scope: "row" } }, [
+                        _vm._v("Max size")
                       ]),
                       _vm._v(" "),
-                      _c("tr", [
-                        _c("th", { attrs: { scope: "row" } }, [
-                          _vm._v("Actual size")
-                        ]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(this.account.actual_size))])
+                      _c("td", [_vm._v(_vm._s(this.account.max_size))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", { attrs: { scope: "row" } }, [
+                        _vm._v("Actual size")
                       ]),
                       _vm._v(" "),
-                      _c("tr", [
-                        _c("th", { attrs: { scope: "row" } }, [_vm._v("IP")]),
-                        _vm._v(" "),
-                        _c("td", [_vm._v(_vm._s(this.account.ip))])
-                      ])
+                      _c("td", [_vm._v(_vm._s(this.account.actual_size))])
+                    ]),
+                    _vm._v(" "),
+                    _c("tr", [
+                      _c("th", { attrs: { scope: "row" } }, [_vm._v("IP")]),
+                      _vm._v(" "),
+                      _c("td", [_vm._v(_vm._s(this.account.ip))])
                     ])
                   ])
                 ])
               ])
-            : _vm._e()
-        ])
+            ])
+          : _vm._e()
       ])
     ])
   ])
 }
 var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "jumbotron" }, [
-      _c("h2", { staticClass: "text-center" }, [_vm._v("ACCOUNTS")])
-    ])
-  },
   function() {
     var _vm = this
     var _h = _vm.$createElement

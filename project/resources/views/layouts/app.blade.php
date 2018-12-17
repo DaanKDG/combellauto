@@ -18,6 +18,7 @@
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/awesomplete.css') }}" rel="stylesheet">
 </head>
 <body>
     <div id="app">
@@ -76,5 +77,7 @@
             @yield('content')
         </main>
     </div>
+
+    <script src="{{ asset('js/awesomplete.min.js') }}"></script>
 </body>
 </html>

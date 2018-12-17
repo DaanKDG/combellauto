@@ -1,6 +1,21 @@
 <template>
-
     <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="form-group" v-if="accountsLoaded">
+                    <label for="search">Search</label>
+
+                    <input type="text" class="form-control" id="search">
+                </div>
+
+                <ul id="account_list" class="d-none">
+                    <li v-for="account in accounts" v-bind:key="account.id">{{ account.name }}</li>
+                </ul>
+
+            </div>
+        </div>
+
         <div class="row">
             <div class="col-md-6">
                 <table class="table">
@@ -64,13 +79,14 @@
             </div>
         </div>
     </div>
-    
+
 </template>
 
 <script>
     export default {
         data() {
             return {
+                accountsLoaded: false,
                 accounts: [],
                 account: {
                     domain_name : null,
@@ -106,6 +122,22 @@
                 })
                 .catch(error => console.log(error));
             }
+        },
+        updated: function () {
+            this.$nextTick(function () {
+
+                //load search element once data is loaded
+
+                var _this = this;
+
+                setTimeout(function() {
+
+                    _this.accountsLoaded = true;
+                    var input = document.getElementById('search');
+                    var awesome = new Awesomplete(input, {list: "#account_list"});
+
+                }, 100);
+            })
         }
     }
 </script>
