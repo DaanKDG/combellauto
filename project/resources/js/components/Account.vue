@@ -1,8 +1,5 @@
 <template>
-<div class="wrapper">
-    <div class="jumbotron">
-        <h2 class="text-center">ACCOUNTS</h2>
-    </div>
+
     <div class="container">
         <div class="row">
             <div class="col-md-6">
@@ -67,7 +64,7 @@
             </div>
         </div>
     </div>
-</div>
+    
 </template>
 
 <script>
