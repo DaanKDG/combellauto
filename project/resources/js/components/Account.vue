@@ -18,23 +18,23 @@
 
         <div class="row">
             <div class="col-md-6">
-                <table class="table">
+                <table class="table table-bordered table-striped">
                     <thead>
                         <tr>
-                            <th scope="col">Servicepack ID</th>
+                            <th class="text-center" scope="col">Service ID</th>
                             <th scope="col">Domain Name</th>
-                            <th scope="col">Actions</th>
+                            <th class="text-center" scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="account in accounts" v-bind:key="account.id">
-                            <th scope="row">{{ account.servicepack_id}}</th>
+                            <th scope="row" class="text-center">{{ account.servicepack_id}}</th>
                             <td>
-                                <a href="#">{{ account.domain_name}}</a>
+                                <a target="_blank" v-bind:href="'https://'+ account.domain_name">{{ account.domain_name}}</a>
                                 <!-- <a href="{{ url('/detail/' . $account['name'] ) }}">{{ $account["domain_name"] }}</a> -->
                             </td>
-                            <td>
-                                <a @click="showDetails(account)" class="btn btn-outline-info">Details</a>
+                            <td align="center">
+                                <a @click="showDetails(account)" class="btn btn-dark">Details</a>
                             </td>
                         </tr>
                     </tbody>
@@ -46,7 +46,7 @@
                        Hosting details
                     </div>
                     <div class="card-body">
-                        <table class="table">
+                        <table class="table table-striped">
                                 <tbody>
                                     <tr>
                                         <th scope="row">Domain Name</th>

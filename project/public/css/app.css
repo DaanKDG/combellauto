@@ -10466,9 +10466,93 @@ a.text-dark:focus {
   }
 }
 
+@font-face {
+  font-family: 'KdG';
+  src: url("/webfont/KdG-Regular.eot");
+  /* IE9 Compat Modes */
+  src: url("/webfont/KdG-Regular.eot?#iefix") format("embedded-opentype"), url("/webfont/KdG-Regular.woff") format("woff"), url("/webfont/KdG-Regular.ttf") format("truetype"), url("/webfont/KdG-Regular.svg#KdG-Regular") format("svg");
+  /* Legacy iOS */
+  font-style: normal;
+  font-weight: normal;
+  text-rendering: optimizeLegibility;
+}
+
 .navbar-laravel {
   background-color: #fff;
   -webkit-box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
           box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+}
+
+body {
+  font-family: Verdana !important;
+  font-size: 0.8em;
+}
+
+.header-link {
+  font-family: 'kdg';
+  font-weight: bold;
+  font-size: 1.5em;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  color: white;
+  font-weight: bold;
+  font-family: 'kdg';
+}
+
+thead th {
+  font-family: 'kdg';
+  color: white;
+  vertical-align: middle;
+}
+
+thead {
+  background-color: #0c090a !important;
+}
+
+.table th,
+.table td {
+  vertical-align: middle;
+}
+
+.jumbotron {
+  background-color: #0c090a;
+  border-radius: 0;
+}
+
+.btn {
+  font-size: inherit !important;
+}
+
+.detail-btn {
+  padding: 10px !important;
+  background-color: black;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+a.btn-dark {
+  background-color: #0c090a;
+  color: white !important;
+  border-radius: 0;
+}
+
+.card-header {
+  background-color: #0c090a;
+  font-family: 'kdg';
+  color: white;
+  font-weight: bold;
+}
+
+.card-body {
+  padding: 0;
+  margin: 0;
+}
+
+table {
+  margin-bottom: 0 !important;
 }
 

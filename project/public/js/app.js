@@ -47564,28 +47564,37 @@ var render = function() {
     _vm._v(" "),
     _c("div", { staticClass: "row" }, [
       _c("div", { staticClass: "col-md-6" }, [
-        _c("table", { staticClass: "table" }, [
+        _c("table", { staticClass: "table table-bordered table-striped" }, [
           _vm._m(0),
           _vm._v(" "),
           _c(
             "tbody",
             _vm._l(_vm.accounts, function(account) {
               return _c("tr", { key: account.id }, [
-                _c("th", { attrs: { scope: "row" } }, [
-                  _vm._v(_vm._s(account.servicepack_id))
-                ]),
-                _vm._v(" "),
-                _c("td", [
-                  _c("a", { attrs: { href: "#" } }, [
-                    _vm._v(_vm._s(account.domain_name))
-                  ])
-                ]),
+                _c(
+                  "th",
+                  { staticClass: "text-center", attrs: { scope: "row" } },
+                  [_vm._v(_vm._s(account.servicepack_id))]
+                ),
                 _vm._v(" "),
                 _c("td", [
                   _c(
                     "a",
                     {
-                      staticClass: "btn btn-outline-info",
+                      attrs: {
+                        target: "_blank",
+                        href: "https://" + account.domain_name
+                      }
+                    },
+                    [_vm._v(_vm._s(account.domain_name))]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("td", { attrs: { align: "center" } }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "btn btn-dark",
                       on: {
                         click: function($event) {
                           _vm.showDetails(account)
@@ -47609,7 +47618,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("div", { staticClass: "card-body" }, [
-                _c("table", { staticClass: "table" }, [
+                _c("table", { staticClass: "table table-striped" }, [
                   _c("tbody", [
                     _c("tr", [
                       _c("th", { attrs: { scope: "row" } }, [
@@ -47664,11 +47673,15 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("thead", [
       _c("tr", [
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Servicepack ID")]),
+        _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
+          _vm._v("Service ID")
+        ]),
         _vm._v(" "),
         _c("th", { attrs: { scope: "col" } }, [_vm._v("Domain Name")]),
         _vm._v(" "),
-        _c("th", { attrs: { scope: "col" } }, [_vm._v("Actions")])
+        _c("th", { staticClass: "text-center", attrs: { scope: "col" } }, [
+          _vm._v("Actions")
+        ])
       ])
     ])
   }
