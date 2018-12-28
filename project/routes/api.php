@@ -17,4 +17,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::get('accounts', 'ApiController@index');
+Route::get('servicepacks', 'ApiController@services');
 Route::get('accounts/{name}', 'ApiController@detail');

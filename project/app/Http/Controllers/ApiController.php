@@ -35,11 +35,15 @@ class ApiController extends Controller
 
         $body = new \stdClass();
         $body->servicepack_id = 14491;
-        $body->identifier = 'daan.test22.mtantwerp.eu';
+        $body->identifier = 'kdgtest12.mtantwerp.eu';
         $body->ftp_password = $password;
         $path = '/v2/accounts';
         
-        dd('statuscode: ' . $this->postData($path, $body));   
+        dd('statuscode: ' . $this->postData($path, $body), $password);   
+    }
+    public function services()
+    {
+       return $this->getData(env('SERVICE_PATH'));
     }
 
     public function detail($name)

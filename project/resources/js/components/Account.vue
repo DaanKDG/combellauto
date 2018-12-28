@@ -1,14 +1,15 @@
 <template>
     <div class="container">
+        <clip-loader :loading="loading" :color="color" :size="size"></clip-loader>
+        <h3 class="ui horizontal divider header mt-5"> <i class="server icon"></i>Hostings</h3>
         <div class="row">
             <div class="col-md-6">
-
-                <div class="form-group" v-if="accountsLoaded">
-                    <label for="search">Search</label>
-
-                    <input type="text" class="form-control" id="search">
+                 <div class="form-group" v-if="accountsLoaded">
+                    <div class="ui icon input">
+                        <input type="text" placeholder="Search...">
+                    <i class="circular search link icon"></i>
+                    </div>
                 </div>
-
                 <ul id="account_list" class="d-none">
                     <li v-for="account in accounts" v-bind:key="account.id">{{ account.name }}</li>
                 </ul>
@@ -17,36 +18,32 @@
         </div>
 
         <div class="row">
-            <div class="col-md-6">
-                <table class="table table-bordered table-striped">
+            <div class="col-lg-6">
+                <table class="ui selectable grey inverted table unstackable">
                     <thead>
                         <tr>
                             <th class="text-center" scope="col">Service ID</th>
-                            <th scope="col">Domain Name</th>
-                            <th class="text-center" scope="col">Actions</th>
+                            <th scope="col">Domein naam</th>
+                            <th class="" scope="col">Acties</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="account in accounts" v-bind:key="account.id">
                             <th scope="row" class="text-center">{{ account.servicepack_id}}</th>
                             <td>
-                                <a target="_blank" v-bind:href="'https://'+ account.domain_name">{{ account.domain_name}}</a>
+                                <a class="domain-link" target="_blank" v-bind:href="'https://'+ account.domain_name">{{ account.domain_name}}</a>
                                 <!-- <a href="{{ url('/detail/' . $account['name'] ) }}">{{ $account["domain_name"] }}</a> -->
                             </td>
                             <td align="center">
-                                <a @click="showDetails(account)" class="btn btn-dark">Details</a>
+                                <a @click="showDetails(account)" class="ui inverted button">Details</a>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
-            <div class="col-md-6">
-                <div v-if='this.account.domain_name' class="card">
-                    <div class="card-header">
-                       Hosting details
-                    </div>
-                    <div class="card-body">
-                        <table class="table table-striped">
+            <div class="col-lg-6" id='example1'>
+                <div v-if='this.account.domain_name' class="" style="width: 100%;">
+                        <table class="ui selectable grey inverted table unstackable">
                                 <tbody>
                                     <tr>
                                         <th scope="row">Domain Name</th>
@@ -74,7 +71,7 @@
                                     </tr>
                                 </tbody>
                             </table>
-                    </div>
+                
                 </div>
             </div>
         </div>
@@ -83,9 +80,13 @@
 </template>
 
 <script>
+import ClipLoader from 'vue-spinner/src/Cliploader.vue'
     export default {
+
         data() {
             return {
+                loading: true,
+                size: '100px',
                 accountsLoaded: false,
                 accounts: [],
                 account: {
@@ -100,16 +101,18 @@
         mounted() {
             console.log('Component mounted.');
             this.getAccounts();
-        }, 
+        },
         methods: {
             getAccounts() {
                 axios.get('/api/accounts', {
                         headers: {'Accept': 'application/json'}
                     })
                     .then(res => { this.accounts = res.data; })
+                    .then(() => {this.loading = false;})
                     .catch(error => console.log(error));
             },
             showDetails(account) {
+                this.loading = true;
                 axios.get(`/api/accounts/${account.name}`, {
                     headers: {'Accept': 'application/json'}
                 })
@@ -120,9 +123,13 @@
                     this.account.max_size = res.data.max_size;
                     this.account.actual_size = res.data.actual_size;
                 })
+                .then(() => {this.loading = false;})
                 .catch(error => console.log(error));
             }
         },
+        components: {
+            ClipLoader
+         },
         updated: function () {
             this.$nextTick(function () {
 
@@ -141,3 +148,5 @@
         }
     }
 </script>
+
+

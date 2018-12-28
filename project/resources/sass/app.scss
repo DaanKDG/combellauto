@@ -27,14 +27,53 @@
 body {
   font-family: Verdana !important;
   font-size: 0.8em;
+  background-color: #f1f5f8 !important;
+  color: black;
+}
+ a.ui {
+  font-size: 11px !important;
+}
+.domain-link {
+  text-decoration: none;
+  color: rgba(255, 248, 248, 0.884);;
 }
 .header-link {
   font-family: 'kdg';
   font-weight: bold;
   font-size: 1.5em;
 }
-h1,h2,h3,h4 {
+
+.upload-wrap {
+  position: relative;
+  text-align: center;
+}
+
+.upload-btn, .upload-btn-2 {
+  left: 0 !important; 
+  right: 0 !important; 
+  margin-left: auto !important; 
+  margin-right: auto !important; 
+  width: 200px !important;
+}
+
+.upload-btn {
+  position: absolute !important; 
+  opacity: 0;
+}
+#pack {
+  display: block;
+  margin: 0 auto;
+  width: 200px !important;
+}
+.submit {
+    text-align: center;
+}
+.jumbotron > h1, .jumbotron > h2, .jumbotron > h3, .jumbotron > h4, th {
   color: white;
+  font-weight: bold;
+  font-family: 'kdg';
+}
+h1,h2,h3,h4,h5 {
   font-weight: bold;
   font-family: 'kdg';
 }
@@ -43,9 +82,9 @@ thead th {
   color: white;
   vertical-align: middle;  
 }
-thead {
-  background-color: #0c090a !important;
-}
+// thead {
+//   background-color: #0c090a !important;
+// }
 .table th, .table td {
   vertical-align: middle;
 }
@@ -64,17 +103,14 @@ thead {
   cursor: pointer;
 
 }
-a.btn-dark {
-  background-color: #0c090a;
-  color: white !important;
-  border-radius: 0;
-}
+
 .card-header {
-  background-color: #0c090a;
   font-family: 'kdg';
   color: white;
   font-weight: bold;
-
+}
+.content {
+  padding: 0 !important;
 }
 .card-body {
   padding: 0;
