@@ -8,6 +8,9 @@ use GuzzleHttp\Client as GuzzleClient;
 use App\CombellClient;
 use GuzzleHttp\Client;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\AccountsImport;
+
 
 class ApiController extends Controller
 {
@@ -27,19 +30,28 @@ class ApiController extends Controller
 
         return $accounts;
     }
-    public function create()
+    public function create(Request $request)
     {
-        $generator = new ComputerPasswordGenerator();
-        $generator->setUppercase()->setLowercase()->setNumbers()->setSymbols(false)->setLength(20);
-        $password = $generator->generatePassword();
 
-        $body = new \stdClass();
-        $body->servicepack_id = 14491;
-        $body->identifier = 'kdgtest12.mtantwerp.eu';
-        $body->ftp_password = $password;
-        $path = '/v2/accounts';
+        // return ['message' => "hello"];
+        if($request->hasFile('test')){
+            
+          \Log::debug(Excel::import(new AccountsImport, $request->file('test')->getRealPath()));  
+            // \Log::debug($request->all());
+            // \Log::debug($request->file('test')->getRealPath());
+        }
+         return ['message' => "hello"];
+        // $generator = new ComputerPasswordGenerator();
+        // $generator->setUppercase()->setLowercase()->setNumbers()->setSymbols(false)->setLength(20);
+        // $password = $generator->generatePassword();
+
+        // $body = new \stdClass();
+        // $body->servicepack_id = 14491;
+        // $body->identifier = 'kdgtest12.mtantwerp.eu';
+        // $body->ftp_password = $password;
+        // $path = '/v2/accounts';
         
-        dd('statuscode: ' . $this->postData($path, $body), $password);   
+        // dd('statuscode: ' . $this->postData($path, $body), $password);   
     }
     public function services()
     {

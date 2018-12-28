@@ -48063,7 +48063,7 @@ exports = module.exports = __webpack_require__(45)(false);
 
 
 // module
-exports.push([module.i, "\n.v-clip\n{\n  position: fixed;\n  z-index: 999;\n  height: 2em;\n  width: 2em;\n  overflow: show;\n  margin: auto;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  text-align: center;\n}\n.v-spinner:before {\n  content: '';\n  display: block;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100vh;\n  background-color: #f1f5f8;\n}\n.v-spinner .v-clip\n{\n    -webkit-animation: v-clipDelay 0.75s 0s infinite linear;\n            animation: v-clipDelay 0.75s 0s infinite linear;\n    -webkit-animation-fill-mode: both;\n\t          animation-fill-mode: both;\n\n    display: inline-block;\n}\n@-webkit-keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n@keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n", ""]);
+exports.push([module.i, "\n.v-spinner\n{\n/*\t  font-size: 10px; \n\n    width: 60px;\n    height: 40px;*/\n    /*margin: 25px auto;*/\n    text-align: center;\n}\n.v-spinner .v-clip\n{\n    -webkit-animation: v-clipDelay 0.75s 0s infinite linear;\n            animation: v-clipDelay 0.75s 0s infinite linear;\n    -webkit-animation-fill-mode: both;\n\t          animation-fill-mode: both;\n\n    display: inline-block;\n}\n@-webkit-keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n@keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n", ""]);
 
 // exports
 
@@ -48453,13 +48453,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         borderStyle: 'solid',
         borderColor: this.color + ' ' + this.color + ' transparent',
         borderRadius: this.radius,
-        background: 'transparant'
-      };
-    },
-    bgStyle: function bgStyle() {
-      return {
-        height: '100vh',
-        background: '#f1f5f8'
+        background: 'transparent'
       };
     }
   }
@@ -48484,8 +48478,7 @@ var render = function() {
           expression: "loading"
         }
       ],
-      staticClass: "v-spinner",
-      style: _vm.bgStyle
+      staticClass: "v-spinner"
     },
     [_c("div", { staticClass: "v-clip", style: _vm.spinnerStyle })]
   )
@@ -48782,7 +48775,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       packs: [],
       fileName: null,
-      file: false
+      file: null,
+      pack: null
     };
   },
   mounted: function mounted() {
@@ -48799,20 +48793,35 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         }
       }).then(function (res) {
         _this.packs = res.data;
+        _this.pack = _this.packs[0].name;
       }).then(function (res) {
         console.log(_this.packs);
       }).catch(function (error) {
         return console.log(error);
       });
     },
+    submitFile: function submitFile(e) {
+      e.preventDefault();
+      var formData = new FormData();
+      formData.append('test', this.file);
+      formData.set('package', this.pack);
+      axios.post("/api/accounts/create", formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }).then(function (res) {
+        console.log(res);
+      }); // console.log(this.pack);
+    },
     onFileUpload: function onFileUpload(e) {
       var files = e.target.files || e.dataTransfer.files;
+      console.log(files);
 
       if (files.length) {
-        this.file = true;
+        this.file = this.$refs.file.files[0];
         this.fileName = files[0].name;
       } else {
-        this.file = false;
+        this.file = null;
         this.fileName = null;
       }
     }
@@ -48832,11 +48841,7 @@ var render = function() {
     _vm._v(" "),
     _c(
       "form",
-      {
-        staticClass: "ui form",
-        attrs: { action: "", method: "post" },
-        on: { submit: _vm.checkForm }
-      },
+      { staticClass: "ui form", attrs: { action: "", method: "post" } },
       [
         _c("div", { staticClass: "upload-wrap" }, [
           _c(
@@ -48854,8 +48859,9 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("input", {
+            ref: "file",
             staticClass: "upload-btn",
-            attrs: { type: "file", name: "excel", id: "excel-upload" },
+            attrs: { type: "file", name: "excel-upload", id: "excel-upload" },
             on: { change: _vm.onFileUpload }
           })
         ]),
@@ -48866,7 +48872,33 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "select",
-                { staticClass: "ui fluid dropdown", attrs: { id: "pack" } },
+                {
+                  directives: [
+                    {
+                      name: "model",
+                      rawName: "v-model",
+                      value: _vm.pack,
+                      expression: "pack"
+                    }
+                  ],
+                  staticClass: "ui fluid dropdown",
+                  attrs: { id: "pack" },
+                  on: {
+                    change: function($event) {
+                      var $$selectedVal = Array.prototype.filter
+                        .call($event.target.options, function(o) {
+                          return o.selected
+                        })
+                        .map(function(o) {
+                          var val = "_value" in o ? o._value : o.value
+                          return val
+                        })
+                      _vm.pack = $event.target.multiple
+                        ? $$selectedVal
+                        : $$selectedVal[0]
+                    }
+                  }
+                },
                 _vm._l(_vm.packs, function(pack) {
                   return _c("option", { key: pack.id }, [
                     _vm._v(_vm._s(pack.name))
@@ -48875,7 +48907,17 @@ var render = function() {
                 0
               ),
               _vm._v(" "),
-              _vm._m(2)
+              _c("div", { staticClass: "submit" }, [
+                _c(
+                  "button",
+                  {
+                    staticClass: "ui secondary button mt-3",
+                    attrs: { id: "submit-btn" },
+                    on: { click: _vm.submitFile }
+                  },
+                  [_vm._v("Pakketten aanmaken")]
+                )
+              ])
             ])
           : _vm._e()
       ]
@@ -48899,21 +48941,6 @@ var staticRenderFns = [
     return _c("h3", { staticClass: "ui horizontal divider header mt-5" }, [
       _c("i", { staticClass: "clipboard list icon" }),
       _vm._v("Kies het pakket\n      ")
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "submit" }, [
-      _c(
-        "button",
-        {
-          staticClass: "ui secondary button mt-3",
-          attrs: { id: "submit-btn" }
-        },
-        [_vm._v("Pakketten aanmaken")]
-      )
     ])
   }
 ]

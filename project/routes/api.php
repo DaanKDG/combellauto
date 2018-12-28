@@ -19,3 +19,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::get('accounts', 'ApiController@index');
 Route::get('servicepacks', 'ApiController@services');
 Route::get('accounts/{name}', 'ApiController@detail');
+Route::post('accounts/create', 'ApiController@create');
