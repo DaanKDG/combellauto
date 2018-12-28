@@ -32,15 +32,13 @@ class ApiController extends Controller
     }
     public function create(Request $request)
     {
-
-        // return ['message' => "hello"];
-        if($request->hasFile('test')){
-            
-          \Log::debug(Excel::import(new AccountsImport, $request->file('test')->getRealPath()));  
-            // \Log::debug($request->all());
-            // \Log::debug($request->file('test')->getRealPath());
+       
+        if($request->hasFile('file')) {
+           $filePath = $request->file('file');
+            Excel::import(new AccountsImport, $filePath);
         }
-         return ['message' => "hello"];
+    
+         
         // $generator = new ComputerPasswordGenerator();
         // $generator->setUppercase()->setLowercase()->setNumbers()->setSymbols(false)->setLength(20);
         // $password = $generator->generatePassword();

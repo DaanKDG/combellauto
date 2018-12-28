@@ -10,8 +10,11 @@ class AccountsImport implements ToCollection
     /**
     * @param Collection $collection
     */
-    public function collection(Collection $collection)
+    public function collection(Collection $rows)
     {
-       return null;
+      foreach ($rows as $row)
+      {
+          \Log::debug($row[0]);
+      }
     }
 }
