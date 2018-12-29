@@ -10,6 +10,7 @@ use GuzzleHttp\Client;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\AccountsImport;
+use App\Account;
 
 
 class ApiController extends Controller
@@ -30,15 +31,21 @@ class ApiController extends Controller
 
         return $accounts;
     }
+
     public function create(Request $request)
     {
-       
-        if($request->hasFile('file')) {
-           $filePath = $request->file('file');
-            Excel::import(new AccountsImport, $filePath);
+        if ($request->hasFile('file')) {
+            $data = [
+                'package' => $request->input('package')
+            ];
+
+            Excel::import(new AccountsImport($data), $request->file('file'));
+
+            return ['message' => 'Excel has been succesfully uploaded'];
+
         }
-    
-         
+
+
         // $generator = new ComputerPasswordGenerator();
         // $generator->setUppercase()->setLowercase()->setNumbers()->setSymbols(false)->setLength(20);
         // $password = $generator->generatePassword();
@@ -48,12 +55,13 @@ class ApiController extends Controller
         // $body->identifier = 'kdgtest12.mtantwerp.eu';
         // $body->ftp_password = $password;
         // $path = '/v2/accounts';
-        
+
         // dd('statuscode: ' . $this->postData($path, $body), $password);   
     }
+
     public function services()
     {
-       return $this->getData(env('SERVICE_PATH'));
+        return $this->getData(env('SERVICE_PATH'));
     }
 
     public function detail($name)
@@ -90,7 +98,7 @@ class ApiController extends Controller
                 'combell_api_secret' => env('API_SECRET')
             ]
         );
-        $res= $client->post($path_query, ['json' => $body]);
+        $res = $client->post($path_query, ['json' => $body]);
         return $res->getStatusCode();
     }
 }

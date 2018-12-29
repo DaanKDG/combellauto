@@ -48788,13 +48788,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       packs: [],
       fileName: null,
       file: null,
-      pack: null
+      pack: null,
+      status: null
     };
   },
   mounted: function mounted() {
@@ -48819,6 +48821,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       });
     },
     submitFile: function submitFile(e) {
+      var _this2 = this;
+
+      this.status = 'Trying to send file to the server';
       e.preventDefault();
       var formData = new FormData();
       formData.append("file", this.file);
@@ -48828,7 +48833,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           "Content-Type": "multipart/form-data"
         }
       }).then(function (res) {
-        console.log(res);
+        _this2.status = res.data.message;
       });
     },
     onFileUpload: function onFileUpload(e) {
@@ -48934,7 +48939,11 @@ var render = function() {
                     on: { click: _vm.submitFile }
                   },
                   [_vm._v("Pakketten aanmaken")]
-                )
+                ),
+                _vm._v(" "),
+                this.status
+                  ? _c("p", [_vm._v(" " + _vm._s(this.status))])
+                  : _vm._e()
               ])
             ])
           : _vm._e()

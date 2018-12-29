@@ -32,6 +32,7 @@
             v-on:click="submitFile"
             class="ui secondary button mt-3"
           >Pakketten aanmaken</button>
+          <p v-if="this.status"> {{this.status}}</p>
         </div>
       </div>
     </form>
@@ -45,7 +46,8 @@ export default {
       packs: [],
       fileName: null,
       file: null,
-      pack: null
+      pack: null,
+      status: null,
     };
   },
   mounted() {
@@ -68,6 +70,7 @@ export default {
         .catch(error => console.log(error));
     },
     submitFile(e) {
+      this.status = 'Trying to send file to the server'
       e.preventDefault();
       let formData = new FormData();
       formData.append("file", this.file);
@@ -78,9 +81,7 @@ export default {
             "Content-Type": "multipart/form-data"
           }
         })
-        .then(res => {
-          console.log(res);
-        });
+        .then(res => {this.status = res.data.message});
     },
     onFileUpload(e) {
       let files = e.target.files || e.dataTransfer.files;
