@@ -11,7 +11,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Account;
 
-class AccountCreation
+class AccountCreation implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -24,6 +24,6 @@ class AccountCreation
 
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return ['account-channel'];
     }
 }

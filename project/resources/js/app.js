@@ -21,6 +21,7 @@ window.Vue = require('vue');
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key)))
 Vue.component('Account', require('./components/Account.vue'));
 Vue.component('Create', require('./components/Create.vue'));
+Vue.component('Status', require('./components/Status.vue'));
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -29,5 +30,5 @@ Vue.component('Create', require('./components/Create.vue'));
  */
 
 const app = new Vue({
-    el: '#app'
+    el: '#app',
 });

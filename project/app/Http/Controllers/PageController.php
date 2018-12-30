@@ -14,4 +14,8 @@ class PageController extends Controller
     {
         return view('create');
     }
+    public function status()
+    {
+        return view('status');
+    }
 }
