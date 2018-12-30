@@ -6,10 +6,12 @@ use App\Account;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-
+use Maatwebsite\Excel\Concerns\Importable;
 
 class AccountsImport implements ToCollection, withHeadingRow
 {
+    use Importable;
+
     private $data;
 
     public function __construct(array $data = [])

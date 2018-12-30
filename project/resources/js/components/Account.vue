@@ -19,7 +19,7 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <table class="ui selectable grey inverted table unstackable">
+                <table class="ui selectable inverted table unstackable">
                     <thead>
                         <tr>
                             <th class="text-center" scope="col">Service ID</th>
@@ -43,7 +43,7 @@
             </div>
             <div class="col-lg-6" id='example1'>
                 <div v-if='this.account.domain_name' class="" style="width: 100%;">
-                        <table class="ui selectable grey inverted table unstackable">
+                        <table class="ui selectable inverted table unstackable">
                                 <tbody>
                                     <tr>
                                         <th scope="row">Domain Name</th>

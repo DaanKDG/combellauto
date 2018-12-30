@@ -8,7 +8,6 @@ use GuzzleHttp\Client as GuzzleClient;
 use App\CombellClient;
 use GuzzleHttp\Client;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
-use Maatwebsite\Excel\Facades\Excel;
 use App\Imports\AccountsImport;
 use App\Account;
 
@@ -39,24 +38,10 @@ class ApiController extends Controller
                 'package' => $request->input('package')
             ];
 
-            Excel::import(new AccountsImport($data), $request->file('file'));
+            (new AccountsImport($data))->import($request->file('file')); 
 
             return ['message' => 'Excel has been succesfully uploaded'];
-
-        }
-
-
-        // $generator = new ComputerPasswordGenerator();
-        // $generator->setUppercase()->setLowercase()->setNumbers()->setSymbols(false)->setLength(20);
-        // $password = $generator->generatePassword();
-
-        // $body = new \stdClass();
-        // $body->servicepack_id = 14491;
-        // $body->identifier = 'kdgtest12.mtantwerp.eu';
-        // $body->ftp_password = $password;
-        // $path = '/v2/accounts';
-
-        // dd('statuscode: ' . $this->postData($path, $body), $password);   
+        } 
     }
 
     public function services()
