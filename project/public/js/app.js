@@ -58160,7 +58160,7 @@ exports = module.exports = __webpack_require__(47)(false);
 
 
 // module
-exports.push([module.i, "\n.v-spinner\n{\n/*\t  font-size: 10px; \n\n    width: 60px;\n    height: 40px;*/\n    /*margin: 25px auto;*/\n    text-align: center;\n}\n.v-spinner .v-clip\n{\n    -webkit-animation: v-clipDelay 0.75s 0s infinite linear;\n            animation: v-clipDelay 0.75s 0s infinite linear;\n    -webkit-animation-fill-mode: both;\n\t          animation-fill-mode: both;\n\n    display: inline-block;\n}\n@-webkit-keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n@keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n", ""]);
+exports.push([module.i, "\n.v-spinner\n{\n/*\t  font-size: 10px; \n\n    width: 60px;\n    height: 40px;*/\n    /*margin: 25px auto;*/\n    text-align: center;\n}\n.v-clip\n{\n  position: fixed;\n  z-index: 999;\n  height: 2em;\n  width: 2em;\n  overflow: show;\n  margin: auto;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  text-align: center;\n}\n.v-spinner:before {\n  content: '';\n  z-index: 998;\n  display: block;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #f1f5f8;\n}\n.v-spinner .v-clip\n{\n    -webkit-animation: v-clipDelay 0.75s 0s infinite linear;\n            animation: v-clipDelay 0.75s 0s infinite linear;\n    -webkit-animation-fill-mode: both;\n\t          animation-fill-mode: both;\n\n    display: inline-block;\n}\n@-webkit-keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n@keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n", ""]);
 
 // exports
 
@@ -59147,6 +59147,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
@@ -59177,13 +59190,13 @@ var render = function() {
       _c("div", { staticClass: "content" }, [
         _c("div", { staticClass: "header" }, [
           _vm._v(
-            "\n                        " +
+            "\n                          " +
               _vm._s(
                 this.accounts.length
                   ? "Generating hosting accounts"
                   : "Waiting for data"
               ) +
-              "\n                      "
+              "\n                        "
           )
         ]),
         _vm._v(" "),
@@ -59199,27 +59212,58 @@ var render = function() {
       ])
     ]),
     _vm._v(" "),
-    this.accounts
-      ? _c(
-          "div",
-          { staticClass: "account-section" },
-          _vm._l(_vm.accounts, function(account) {
-            return _c(
-              "div",
-              { key: account.id, staticClass: "ui green segment" },
-              [
-                _c("div", { staticClass: "item" }, [
-                  _c("p", [_vm._v(_vm._s(account.name))])
-                ])
-              ]
-            )
-          }),
-          0
-        )
-      : _vm._e()
+    _c("table", { staticClass: "ui inverted table" }, [
+      _vm._m(0),
+      _c(
+        "tbody",
+        _vm._l(_vm.accounts, function(account) {
+          return _c("tr", { key: account.id }, [
+            _c(
+              "td",
+              { staticClass: "positive", staticStyle: { width: "33%" } },
+              [_vm._v(_vm._s(account.name))]
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              { staticClass: "positive", staticStyle: { width: "33%" } },
+              [_vm._v("identifier.mtantwerp.eu")]
+            ),
+            _vm._v(" "),
+            _vm._m(1, true)
+          ])
+        }),
+        0
+      )
+    ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("Naam")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Domein")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Statuscode")])
+      ])
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "td",
+      { staticClass: "positive", staticStyle: { width: "33%" } },
+      [_vm._v("202 "), _c("i", { staticClass: "icon checkmark" })]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
