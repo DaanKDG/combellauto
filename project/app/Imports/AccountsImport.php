@@ -19,15 +19,22 @@ class AccountsImport implements ToCollection, withHeadingRow
     {
         $this->data = $data;
     }
-
+    
     public function collection(Collection $rows)
-    {
-        $rows->each(function ($row, $key) {
-           $account = Account::create(array_merge([
-                'name' => $row['student'],
-                'email' => $row['school_e_mailadres'],
-            ], $this->data));
+    {        
+       $accounts = $rows->map(function ($row, $key)  {
+          return [
+                'name' => mb_convert_encoding($row['student'], "UTF-8", mb_detect_encoding($row['student'], "UTF-8, ISO-8859-1, ISO-8859-15", true)),
+                'email'=> $row['school_e_mailadres'],
+                'package' => $this->data['package'],
+            ];
+        })->filter()->all();
+         
+        Account::insert($accounts);
+
+        Account::where('status', 'created')->get()->each(function($account, $key){
             event(new AccountCreation($account));
         });
+
     }
 }

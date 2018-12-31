@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-            <div class="ui icon message mt-4">
+            <div class="ui inverted icon message mt-4">
                     <i class="notched circle loading icon"></i>
                     <div class="content">
                         <div class="header">
@@ -23,11 +23,11 @@
   <thead>
     <tr><th>Naam</th>
     <th>Domein</th>
-    <th>Statuscode</th>
+    <th>Statuscode <i style='font-size:13px;' class="question circle outline icon"></i></th>
   </tr></thead><tbody>
     <tr v-for="account in accounts" v-bind:key="account.id">
       <td style="width: 33%;" class="positive">{{account.name}}</td>
-      <td style="width: 33%;" class="positive">identifier.mtantwerp.eu</td>
+      <td style="width: 33%;" class="positive">{{account.domain}}</td>
       <td style="width: 33%;" class="positive">202 <i class="icon checkmark"></i></td>
     </tr>
   </tbody>
@@ -45,8 +45,8 @@ export default {
     };
   },
   created() {
-    Echo.channel("account-channel").listen("AccountCreation", e => {
-      this.accounts.unshift(e.account);
+    Echo.channel("account-channel").listen("AccountWasUpdated", e => {
+        this.accounts.unshift(e.account);
     });
     
   }

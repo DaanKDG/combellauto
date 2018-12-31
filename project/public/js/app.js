@@ -58160,7 +58160,7 @@ exports = module.exports = __webpack_require__(47)(false);
 
 
 // module
-exports.push([module.i, "\n.v-spinner\n{\n/*\t  font-size: 10px; \n\n    width: 60px;\n    height: 40px;*/\n    /*margin: 25px auto;*/\n    text-align: center;\n}\n.v-clip\n{\n  position: fixed;\n  z-index: 999;\n  height: 2em;\n  width: 2em;\n  overflow: show;\n  margin: auto;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  text-align: center;\n}\n.v-spinner:before {\n  content: '';\n  z-index: 998;\n  display: block;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #f1f5f8;\n}\n.v-spinner .v-clip\n{\n    -webkit-animation: v-clipDelay 0.75s 0s infinite linear;\n            animation: v-clipDelay 0.75s 0s infinite linear;\n    -webkit-animation-fill-mode: both;\n\t          animation-fill-mode: both;\n\n    display: inline-block;\n}\n@-webkit-keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n@keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n", ""]);
+exports.push([module.i, "\n.v-clip\n{\n  position: fixed;\n  z-index: 999;\n  height: 2em;\n  width: 2em;\n  overflow: show;\n  margin: auto;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  text-align: center;\n}\n.v-spinner:before {\n  z-index:998;\n  content: '';\n  display: block;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #f1f5f8;\n}\n.v-spinner .v-clip\n{\n    -webkit-animation: v-clipDelay 0.75s 0s infinite linear;\n            animation: v-clipDelay 0.75s 0s infinite linear;\n    -webkit-animation-fill-mode: both;\n\t          animation-fill-mode: both;\n\n    display: inline-block;\n}\n@-webkit-keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n@keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n", ""]);
 
 // exports
 
@@ -58550,7 +58550,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         borderStyle: 'solid',
         borderColor: this.color + ' ' + this.color + ' transparent',
         borderRadius: this.radius,
-        background: 'transparent'
+        background: 'transparant'
+      };
+    },
+    bgStyle: function bgStyle() {
+      return {
+        height: '100vh',
+        background: '#f1f5f8'
       };
     }
   }
@@ -58575,7 +58581,8 @@ var render = function() {
           expression: "loading"
         }
       ],
-      staticClass: "v-spinner"
+      staticClass: "v-spinner",
+      style: _vm.bgStyle
     },
     [_c("div", { staticClass: "v-clip", style: _vm.spinnerStyle })]
   )
@@ -59169,7 +59176,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
   created: function created() {
     var _this = this;
 
-    Echo.channel("account-channel").listen("AccountCreation", function (e) {
+    Echo.channel("account-channel").listen("AccountWasUpdated", function (e) {
       _this.accounts.unshift(e.account);
     });
   }
@@ -59184,7 +59191,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "ui icon message mt-4" }, [
+    _c("div", { staticClass: "ui inverted icon message mt-4" }, [
       _c("i", { staticClass: "notched circle loading icon" }),
       _vm._v(" "),
       _c("div", { staticClass: "content" }, [
@@ -59227,7 +59234,7 @@ var render = function() {
             _c(
               "td",
               { staticClass: "positive", staticStyle: { width: "33%" } },
-              [_vm._v("identifier.mtantwerp.eu")]
+              [_vm._v(_vm._s(account.domain))]
             ),
             _vm._v(" "),
             _vm._m(1, true)
@@ -59249,7 +59256,13 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Domein")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Statuscode")])
+        _c("th", [
+          _vm._v("Statuscode "),
+          _c("i", {
+            staticClass: "question circle outline icon",
+            staticStyle: { "font-size": "13px" }
+          })
+        ])
       ])
     ])
   },

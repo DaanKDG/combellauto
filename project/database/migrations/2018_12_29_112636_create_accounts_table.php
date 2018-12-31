@@ -18,7 +18,9 @@ class CreateAccountsTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('status')->default('created');
-            $table->string('package'); 
+            $table->string('package');
+            $table->string('domain')->nullable();
+            $table->string('password')->nullable();  
             $table->timestamps();
         });
     }

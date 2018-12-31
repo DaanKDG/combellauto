@@ -20,6 +20,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         'App\Events\AccountCreation' => [
             'App\Listeners\SetHostingAccount',
+        ],        
+        'App\Events\AccountWasUpdated' => [
+            'App\Listeners\SendHostingAccount'
         ],
     ];
 
