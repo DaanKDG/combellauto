@@ -1,27 +1,19 @@
 <template>
-  <div class="container" v-show="submit">
-    <div class="progress" v-if="!this.finished" >
-        <div class="ui inverted icon message mt-4">
-                <i class="notched circle loading icon"></i>
-                <div class="content">
-                    <div class="header">
-                      {{this.accounts.length ? 'Hosting accounts aanmaken': 'Wachten op data'}}
+<div class="container" v-show="submit">
+          <div :class="!this.finished ? 'ui inverted icon message mt-4' : 'ui green icon message mt-4'">
+              <i :class="!this.finished ? 'notched circle loading icon' : 'check circle icon'"></i>
+              <div class="content">
+                  <div class="header">
+                    <div class="progress-message" v-if='!this.finished'>
+                         {{this.accounts.length ? 'Hosting accounts aanmaken': 'Wachten op data'}}
                     </div>
-                    <p>{{this.accounts.length ? this.accounts.length + ' ' + 'accounts aangemaakt' : '0 items' }} </p>
-                </div>
-        </div>
-    </div>
-    <div class="finished" v-if="this.finished">
-      <div class="ui inverted icon message mt-4">
-          <i class="notched check circle icon"></i>
-          <div class="content">
-              <div class="header">
-                {{this.accounts.length ? 'Hosting accounts aanmaken': 'Wachten op data'}}
+                    <div class="progress-message" v-if='this.finished'>
+                         Voltooid
+                    </div>
+                  </div>
+                  <p>{{this.accounts.length ? this.accounts.length + ' ' + 'accounts aangemaakt' : '0 items' }} </p>
               </div>
-              <p>{{this.accounts.length ? this.accounts.length + ' ' + 'accounts aangemaakt' : '0 items' }} </p>
-          </div>
-    </div>
-</div>
+        </div>
 <table class="ui inverted table" >
   <thead>
     <tr><th>Naam</th>
