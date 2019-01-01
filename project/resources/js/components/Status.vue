@@ -1,24 +1,27 @@
 <template>
-  <div class="container">
-            <div class="ui inverted icon message mt-4">
-                    <i class="notched circle loading icon"></i>
-                    <div class="content">
-                        <div class="header">
-                          {{this.accounts.length ? 'Generating hosting accounts': 'Waiting for data'}}
-                        </div>
-                         <p>{{this.accounts.length ? this.accounts.length + ' ' + 'hosting accounts created' : '0 items' }} </p>
-                     </div>
-             </div>
-    <!-- <div class="account-section" v-if="this.accounts">
-
-        <div class="ui green segment" v-for="account in accounts" v-bind:key="account.id">
-            <div class="item">
-                <p>{{account.name}}</p>
-            </div>
+  <div class="container" v-show="submit">
+    <div class="progress" v-if="!this.finished" >
+        <div class="ui inverted icon message mt-4">
+                <i class="notched circle loading icon"></i>
+                <div class="content">
+                    <div class="header">
+                      {{this.accounts.length ? 'Hosting accounts aanmaken': 'Wachten op data'}}
+                    </div>
+                    <p>{{this.accounts.length ? this.accounts.length + ' ' + 'accounts aangemaakt' : '0 items' }} </p>
+                </div>
         </div>
-    </div> -->
-<!-- table -->
-
+    </div>
+    <div class="finished" v-if="this.finished">
+      <div class="ui inverted icon message mt-4">
+          <i class="notched check circle icon"></i>
+          <div class="content">
+              <div class="header">
+                {{this.accounts.length ? 'Hosting accounts aanmaken': 'Wachten op data'}}
+              </div>
+              <p>{{this.accounts.length ? this.accounts.length + ' ' + 'accounts aangemaakt' : '0 items' }} </p>
+          </div>
+    </div>
+</div>
 <table class="ui inverted table" >
   <thead>
     <tr><th>Naam</th>
@@ -39,6 +42,18 @@
 
 <script>
 export default {
+name: 'status',
+
+  props: {
+    submit: {
+      type: Boolean,
+      default: true,
+    },
+    finished: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       accounts: []

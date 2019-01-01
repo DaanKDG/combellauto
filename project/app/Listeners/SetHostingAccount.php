@@ -2,7 +2,7 @@
 
 namespace App\Listeners;
 
-use App\Events\AccountCreation;
+use App\Events\AccountWasCreated;
 use App\Events\AccountWasUpdated;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 use Illuminate\Queue\InteractsWithQueue;
@@ -16,7 +16,7 @@ class SetHostingAccount
         //
     }
 
-    public function handle(AccountCreation $event)
+    public function handle(AccountWasCreated $event)
     { 
         $generator = new ComputerPasswordGenerator();
         $generator->setUppercase()->setLowercase()->setNumbers()->setSymbols(false)->setLength(20);

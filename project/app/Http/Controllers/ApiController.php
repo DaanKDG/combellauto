@@ -10,6 +10,7 @@ use GuzzleHttp\Client;
 use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 use App\Imports\AccountsImport;
 use App\Account;
+use Illuminate\Http\RedirectResponse;
 
 
 class ApiController extends Controller
@@ -37,9 +38,9 @@ class ApiController extends Controller
             $data = [
                 'package' => $request->input('package')
             ];
-
-            (new AccountsImport($data))->import($request->file('file')); 
-
+            // should redirect before my AccountsImport, after redirect launch import
+            (new AccountsImport($data))->import($request->file('file'));
+            
             return ['message' => 'Excel has been succesfully uploaded'];
         } 
     }

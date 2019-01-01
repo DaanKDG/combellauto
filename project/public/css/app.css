@@ -11526,6 +11526,10 @@ h5 {
   font-family: 'kdg';
 }
 
+.header {
+  font-family: 'kdg' !important;
+}
+
 thead th {
   font-family: 'kdg';
   color: white;

@@ -11,7 +11,7 @@ use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Account;
 
-class AccountCreation
+class AccountWasCreated
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 

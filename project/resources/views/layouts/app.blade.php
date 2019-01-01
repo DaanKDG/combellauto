@@ -28,10 +28,10 @@
     <div id="app">
         <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
             <div class="container">
-                <a href="{{ url('/') }}" class="ui button mr-2">Hostings</a>
-                <a href="{{ url('/create') }}" class="ui button mr-2">Hosting aanmaken</a>
-                <a href="" class="ui button mr-2">Hosting rapport</a>
-                <a href="" class="ui button mr-2">Hoe hosting aanmaken?</a>
+                <a href="{{ url('/') }}" class="ui secondary button mr-2">Hostings</a>
+                <a href="{{ url('/create') }}" class="ui secondary button mr-2">Hosting aanmaken</a>
+                <a href="{{ url('/accounts/status') }}" class="ui secondary button mr-2">Status</a>
+                <a href="" class="ui secondary button mr-2">Hoe hosting aanmaken?</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="{{ __('Toggle navigation') }}">
                     <span class="navbar-toggler-icon"></span>
                 </button>

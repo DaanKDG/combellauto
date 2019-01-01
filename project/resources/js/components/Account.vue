@@ -87,6 +87,7 @@ import ClipLoader from 'vue-spinner/src/Cliploader.vue'
             return {
                 loading: true,
                 size: '100px',
+                color: '#1b1c1d',
                 accountsLoaded: false,
                 accounts: [],
                 account: {
@@ -112,7 +113,6 @@ import ClipLoader from 'vue-spinner/src/Cliploader.vue'
                     .catch(error => console.log(error));
             },
             showDetails(account) {
-                this.loading = true;
                 axios.get(`/api/accounts/${account.name}`, {
                     headers: {'Accept': 'application/json'}
                 })
@@ -123,7 +123,7 @@ import ClipLoader from 'vue-spinner/src/Cliploader.vue'
                     this.account.max_size = res.data.max_size;
                     this.account.actual_size = res.data.actual_size;
                 })
-                .then(() => {this.loading = false;})
+                .then(() => {})
                 .catch(error => console.log(error));
             }
         },

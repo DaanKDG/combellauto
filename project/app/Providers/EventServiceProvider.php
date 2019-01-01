@@ -18,7 +18,7 @@ class EventServiceProvider extends ServiceProvider
         Registered::class => [
             SendEmailVerificationNotification::class,
         ],
-        'App\Events\AccountCreation' => [
+        'App\Events\AccountWasCreated' => [
             'App\Listeners\SetHostingAccount',
         ],        
         'App\Events\AccountWasUpdated' => [

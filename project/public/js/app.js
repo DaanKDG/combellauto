@@ -58003,6 +58003,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     return {
       loading: true,
       size: '100px',
+      color: '#1b1c1d',
       accountsLoaded: false,
       accounts: [],
       account: {
@@ -58037,7 +58038,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     showDetails: function showDetails(account) {
       var _this3 = this;
 
-      this.loading = true;
       axios.get("/api/accounts/".concat(account.name), {
         headers: {
           'Accept': 'application/json'
@@ -58048,9 +58048,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         _this3.account.ip = res.data.ip;
         _this3.account.max_size = res.data.max_size;
         _this3.account.actual_size = res.data.actual_size;
-      }).then(function () {
-        _this3.loading = false;
-      }).catch(function (error) {
+      }).then(function () {}).catch(function (error) {
         return console.log(error);
       });
     }
@@ -58843,6 +58841,10 @@ module.exports = Component.exports
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_spinner_src_Cliploader_vue__ = __webpack_require__(44);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_vue_spinner_src_Cliploader_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_vue_spinner_src_Cliploader_vue__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Status_vue__ = __webpack_require__(56);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__Status_vue___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__Status_vue__);
 //
 //
 //
@@ -58884,24 +58886,41 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      loading: true,
+      size: '100px',
+      color: '#1b1c1d',
       packs: [],
       fileName: null,
       file: null,
       pack: null,
-      status: null
+      status: null,
+      submit: false,
+      finished: false,
+      error: false
     };
   },
   mounted: function mounted() {
     console.log("Component mounted.");
     this.getServices();
   },
+  components: {
+    ClipLoader: __WEBPACK_IMPORTED_MODULE_0_vue_spinner_src_Cliploader_vue___default.a,
+    Status: __WEBPACK_IMPORTED_MODULE_1__Status_vue___default.a
+  },
   methods: {
     getServices: function getServices() {
       var _this = this;
 
+      this.loading = true;
       axios.get("/api/servicepacks", {
         headers: {
           Accept: "application/json"
@@ -58909,17 +58928,19 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       }).then(function (res) {
         _this.packs = res.data;
         _this.pack = _this.packs[0].name;
+        _this.loading = false;
       }).then(function (res) {
         console.log(_this.packs);
       }).catch(function (error) {
-        return console.log(error);
+        console.log(error);
+        _this.loading = false;
       });
     },
     submitFile: function submitFile(e) {
       var _this2 = this;
 
       this.status = 'Trying to send file to the server';
-      e.preventDefault();
+      this.submit = true, e.preventDefault();
       var formData = new FormData();
       formData.append("file", this.file);
       formData.set("package", this.pack);
@@ -58928,7 +58949,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           "Content-Type": "multipart/form-data"
         }
       }).then(function (res) {
-        _this2.status = res.data.message;
+        _this2.finished = true;
+      }).catch(function (error) {
+        _this2.error = true;
       });
     },
     onFileUpload: function onFileUpload(e) {
@@ -58954,97 +58977,118 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _vm._m(0),
-    _vm._v(" "),
-    _c(
-      "form",
-      { staticClass: "ui form", attrs: { action: "", method: "post" } },
-      [
-        _c("div", { staticClass: "upload-wrap" }, [
-          _c(
-            "button",
-            {
-              staticClass: "ui secondary button upload-btn-2",
-              attrs: { type: "button" }
-            },
-            [
-              _vm._v(
-                "Bestand " +
-                  _vm._s(this.fileName ? "(" + this.fileName + ")" : "kiezen")
-              )
-            ]
-          ),
-          _vm._v(" "),
-          _c("input", {
-            ref: "file",
-            staticClass: "upload-btn",
-            attrs: { type: "file", name: "excel-upload", id: "excel-upload" },
-            on: { change: _vm.onFileUpload }
-          })
-        ]),
-        _vm._v(" "),
-        this.file
-          ? _c("div", { staticClass: "mt-2" }, [
-              _vm._m(1),
-              _vm._v(" "),
-              _c(
-                "select",
-                {
-                  directives: [
+  return _c(
+    "div",
+    { staticClass: "container" },
+    [
+      _c("clip-loader", {
+        attrs: { loading: _vm.loading, color: _vm.color, size: _vm.size }
+      }),
+      _vm._v(" "),
+      !this.submit
+        ? _c("div", { staticClass: "create-section" }, [
+            _vm._m(0),
+            _vm._v(" "),
+            _c(
+              "form",
+              { staticClass: "ui form", attrs: { action: "", method: "post" } },
+              [
+                _c("div", { staticClass: "upload-wrap" }, [
+                  _c(
+                    "button",
                     {
-                      name: "model",
-                      rawName: "v-model",
-                      value: _vm.pack,
-                      expression: "pack"
-                    }
-                  ],
-                  staticClass: "ui fluid dropdown",
-                  attrs: { id: "pack" },
-                  on: {
-                    change: function($event) {
-                      var $$selectedVal = Array.prototype.filter
-                        .call($event.target.options, function(o) {
-                          return o.selected
-                        })
-                        .map(function(o) {
-                          var val = "_value" in o ? o._value : o.value
-                          return val
-                        })
-                      _vm.pack = $event.target.multiple
-                        ? $$selectedVal
-                        : $$selectedVal[0]
-                    }
-                  }
-                },
-                _vm._l(_vm.packs, function(pack) {
-                  return _c("option", { key: pack.id }, [
-                    _vm._v(_vm._s(pack.name))
-                  ])
-                }),
-                0
-              ),
-              _vm._v(" "),
-              _c("div", { staticClass: "submit" }, [
-                _c(
-                  "button",
-                  {
-                    staticClass: "ui secondary button mt-3",
-                    attrs: { id: "submit-btn" },
-                    on: { click: _vm.submitFile }
-                  },
-                  [_vm._v("Pakketten aanmaken")]
-                ),
+                      staticClass: "ui secondary button upload-btn-2",
+                      attrs: { type: "button" }
+                    },
+                    [
+                      _vm._v(
+                        "Bestand " +
+                          _vm._s(
+                            this.fileName ? "(" + this.fileName + ")" : "kiezen"
+                          )
+                      )
+                    ]
+                  ),
+                  _vm._v(" "),
+                  _c("input", {
+                    ref: "file",
+                    staticClass: "upload-btn",
+                    attrs: {
+                      type: "file",
+                      name: "excel-upload",
+                      id: "excel-upload"
+                    },
+                    on: { change: _vm.onFileUpload }
+                  })
+                ]),
                 _vm._v(" "),
-                this.status
-                  ? _c("p", [_vm._v(" " + _vm._s(this.status))])
+                this.file
+                  ? _c("div", { staticClass: "mt-2" }, [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _c(
+                        "select",
+                        {
+                          directives: [
+                            {
+                              name: "model",
+                              rawName: "v-model",
+                              value: _vm.pack,
+                              expression: "pack"
+                            }
+                          ],
+                          staticClass: "ui fluid dropdown",
+                          attrs: { id: "pack" },
+                          on: {
+                            change: function($event) {
+                              var $$selectedVal = Array.prototype.filter
+                                .call($event.target.options, function(o) {
+                                  return o.selected
+                                })
+                                .map(function(o) {
+                                  var val = "_value" in o ? o._value : o.value
+                                  return val
+                                })
+                              _vm.pack = $event.target.multiple
+                                ? $$selectedVal
+                                : $$selectedVal[0]
+                            }
+                          }
+                        },
+                        _vm._l(_vm.packs, function(pack) {
+                          return _c("option", { key: pack.id }, [
+                            _vm._v(_vm._s(pack.name))
+                          ])
+                        }),
+                        0
+                      ),
+                      _vm._v(" "),
+                      _c("div", { staticClass: "submit" }, [
+                        _c(
+                          "button",
+                          {
+                            staticClass: "ui secondary button mt-3",
+                            attrs: { id: "submit-btn" },
+                            on: { click: _vm.submitFile }
+                          },
+                          [_vm._v("Pakketten aanmaken")]
+                        ),
+                        _vm._v(" "),
+                        this.status
+                          ? _c("p", [_vm._v(" " + _vm._s(this.status))])
+                          : _vm._e()
+                      ])
+                    ])
                   : _vm._e()
-              ])
-            ])
-          : _vm._e()
-      ]
-    )
-  ])
+              ]
+            )
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("status", { attrs: { submit: _vm.submit, finished: _vm.finished } })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {
@@ -59053,7 +59097,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("h3", { staticClass: "ui horizontal divider header mt-5" }, [
       _c("i", { staticClass: "file excel icon" }),
-      _vm._v("Bestand upload\n  ")
+      _vm._v("Bestand upload\n          ")
     ])
   },
   function() {
@@ -59062,7 +59106,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("h3", { staticClass: "ui horizontal divider header mt-5" }, [
       _c("i", { staticClass: "clipboard list icon" }),
-      _vm._v("Kies het pakket\n      ")
+      _vm._v("Kies het pakket\n              ")
     ])
   }
 ]
@@ -59167,7 +59211,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'status',
+  props: {
+    submit: {
+      type: Boolean,
+      default: true
+    },
+    finished: {
+      type: Boolean,
+      default: false
+    }
+  },
   data: function data() {
     return {
       accounts: []
@@ -59190,60 +59248,110 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", { staticClass: "container" }, [
-    _c("div", { staticClass: "ui inverted icon message mt-4" }, [
-      _c("i", { staticClass: "notched circle loading icon" }),
-      _vm._v(" "),
-      _c("div", { staticClass: "content" }, [
-        _c("div", { staticClass: "header" }, [
-          _vm._v(
-            "\n                          " +
-              _vm._s(
-                this.accounts.length
-                  ? "Generating hosting accounts"
-                  : "Waiting for data"
-              ) +
-              "\n                        "
-          )
-        ]),
-        _vm._v(" "),
-        _c("p", [
-          _vm._v(
-            _vm._s(
-              this.accounts.length
-                ? this.accounts.length + " " + "hosting accounts created"
-                : "0 items"
-            ) + " "
-          )
-        ])
-      ])
-    ]),
-    _vm._v(" "),
-    _c("table", { staticClass: "ui inverted table" }, [
-      _vm._m(0),
-      _c(
-        "tbody",
-        _vm._l(_vm.accounts, function(account) {
-          return _c("tr", { key: account.id }, [
-            _c(
-              "td",
-              { staticClass: "positive", staticStyle: { width: "33%" } },
-              [_vm._v(_vm._s(account.name))]
-            ),
-            _vm._v(" "),
-            _c(
-              "td",
-              { staticClass: "positive", staticStyle: { width: "33%" } },
-              [_vm._v(_vm._s(account.domain))]
-            ),
-            _vm._v(" "),
-            _vm._m(1, true)
+  return _c(
+    "div",
+    {
+      directives: [
+        {
+          name: "show",
+          rawName: "v-show",
+          value: _vm.submit,
+          expression: "submit"
+        }
+      ],
+      staticClass: "container"
+    },
+    [
+      !this.finished
+        ? _c("div", { staticClass: "progress" }, [
+            _c("div", { staticClass: "ui inverted icon message mt-4" }, [
+              _c("i", { staticClass: "notched circle loading icon" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "content" }, [
+                _c("div", { staticClass: "header" }, [
+                  _vm._v(
+                    "\n                      " +
+                      _vm._s(
+                        this.accounts.length
+                          ? "Hosting accounts aanmaken"
+                          : "Wachten op data"
+                      ) +
+                      "\n                    "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v(
+                    _vm._s(
+                      this.accounts.length
+                        ? this.accounts.length + " " + "accounts aangemaakt"
+                        : "0 items"
+                    ) + " "
+                  )
+                ])
+              ])
+            ])
           ])
-        }),
-        0
-      )
-    ])
-  ])
+        : _vm._e(),
+      _vm._v(" "),
+      this.finished
+        ? _c("div", { staticClass: "finished" }, [
+            _c("div", { staticClass: "ui inverted icon message mt-4" }, [
+              _c("i", { staticClass: "notched check circle icon" }),
+              _vm._v(" "),
+              _c("div", { staticClass: "content" }, [
+                _c("div", { staticClass: "header" }, [
+                  _vm._v(
+                    "\n                " +
+                      _vm._s(
+                        this.accounts.length
+                          ? "Hosting accounts aanmaken"
+                          : "Wachten op data"
+                      ) +
+                      "\n              "
+                  )
+                ]),
+                _vm._v(" "),
+                _c("p", [
+                  _vm._v(
+                    _vm._s(
+                      this.accounts.length
+                        ? this.accounts.length + " " + "accounts aangemaakt"
+                        : "0 items"
+                    ) + " "
+                  )
+                ])
+              ])
+            ])
+          ])
+        : _vm._e(),
+      _vm._v(" "),
+      _c("table", { staticClass: "ui inverted table" }, [
+        _vm._m(0),
+        _c(
+          "tbody",
+          _vm._l(_vm.accounts, function(account) {
+            return _c("tr", { key: account.id }, [
+              _c(
+                "td",
+                { staticClass: "positive", staticStyle: { width: "33%" } },
+                [_vm._v(_vm._s(account.name))]
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                { staticClass: "positive", staticStyle: { width: "33%" } },
+                [_vm._v(_vm._s(account.domain))]
+              ),
+              _vm._v(" "),
+              _vm._m(1, true)
+            ])
+          }),
+          0
+        )
+      ])
+    ]
+  )
 }
 var staticRenderFns = [
   function() {
