@@ -25,9 +25,9 @@ class SetHostingAccount
         $domain = preg_replace('/\s+/', '.', mb_strtolower($event->account->name . ' mtantwerp.eu'));
         $event->account->domain = $domain;
         $event->account->password = $password;
+        $event->account->status = 'finished';
 
         $event->account->save();
-        // change account status to finished
         event(new AccountWasUpdated($event->account));
     }
 }
