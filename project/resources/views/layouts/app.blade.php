@@ -26,38 +26,39 @@
 </head>
 <body>
     <div id="app">
-        <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
-            <div class="container">
-                <a href="{{ url('/') }}" class="ui secondary button mr-2">Hostings</a>
-                <a href="{{ url('/create') }}" class="ui secondary button mr-2">Hosting aanmaken</a>
-                <a href="{{ url('/accounts/status') }}" class="ui secondary button mr-2">Status</a>
-                <a href="" class="ui secondary button mr-2">Hoe hosting aanmaken?</a>
+        @auth
+            <nav class="navbar navbar-expand-md navbar-light navbar-laravel">
+                <div class="container">
+                    <a href="{{ url('/') }}" class="ui secondary button mr-2">Hostings</a>
+                    <a href="{{ url('/create') }}" class="ui secondary button mr-2">Hosting aanmaken</a>
+                    <a href="{{ url('/accounts/status') }}" class="ui secondary button mr-2">Status</a>
+                    <a href="" class="ui secondary button mr-2">Hoe hosting aanmaken?</a>
 
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
-                    </ul>
-                    @auth
-                        <ul class="navbar-nav ml-auto">
-                            <!-- Authentication Links -->
-                                <li class="nav-item">
-                                    <a class="ui secondary button" href="{{ route('logout') }}"
-                                        onclick="event.preventDefault();
-                                        document.getElementById('logout-form').submit();">
-                                        {{ __('Logout') }}
-                                    </a>
+                    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                        <!-- Left Side Of Navbar -->
+                        <ul class="navbar-nav mr-auto">
+                        </ul>
+                        
+                            <ul class="navbar-nav ml-auto">
+                                <!-- Authentication Links -->
+                                    <li class="nav-item">
+                                        <a class="ui secondary button" href="{{ route('logout') }}"
+                                            onclick="event.preventDefault();
+                                            document.getElementById('logout-form').submit();">
+                                            {{ __('Logout') }}
+                                        </a>
 
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                        @csrf
-                                    </form>
-                                </li>
-                        </ul> 
-                    @endauth
-                     {{-- Right Side Of Navbar  --}}
+                                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                            @csrf
+                                        </form>
+                                    </li>
+                            </ul> 
+                    
+                        {{-- Right Side Of Navbar  --}}
+                    </div>
                 </div>
-            </div>
-        </nav>
-
+            </nav>
+        @endauth
         <main class="">
             @yield('content')
         </main>
