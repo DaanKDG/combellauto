@@ -6,7 +6,7 @@
             <div class="col-md-6">
                  <div class="form-group" v-if="accountsLoaded">
                     <div class="ui icon input">
-                        <input type="text" placeholder="Search...">
+                        <input type="text" placeholder="Search..." id="search" v-on:keyup="searchFunction()">
                     <i class="circular search link icon"></i>
                     </div>
                 </div>
@@ -19,7 +19,7 @@
 
         <div class="row">
             <div class="col-lg-6">
-                <table class="ui selectable inverted table unstackable">
+                <table class="ui selectable inverted table unstackable" id="overview">
                     <thead>
                         <tr>
                             <th class="text-center" scope="col">Service ID</th>
@@ -125,6 +125,22 @@ import ClipLoader from 'vue-spinner/src/Cliploader.vue'
                 })
                 .then(() => {})
                 .catch(error => console.log(error));
+            },
+            searchFunction() {
+                var input = document.getElementById('search');
+                var filter = input.value.toUpperCase();
+                var list = document.getElementById("overview");
+                var tr = list.getElementsByTagName("tr");
+
+                for (var i = 1; i < tr.length; i++) {
+                    var a = tr[i].getElementsByTagName("a")[0];
+                    var txtValue = a.textContent || a.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
             }
         },
         components: {
@@ -133,15 +149,25 @@ import ClipLoader from 'vue-spinner/src/Cliploader.vue'
         updated: function () {
             this.$nextTick(function () {
 
-                //load search element once data is loaded
-
                 var _this = this;
 
                 setTimeout(function() {
-
                     _this.accountsLoaded = true;
+
                     var input = document.getElementById('search');
-                    var awesome = new Awesomplete(input, {list: "#account_list"});
+                    var filter = input.value.toUpperCase();
+                    var list = document.getElementById("overview");
+                    var tr = list.getElementsByTagName("tr");
+
+                    for (var i = 1; i < tr.length; i++) {
+                        var a = tr[i].getElementsByTagName("a")[0];
+                        var txtValue = a.textContent || a.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].style.display = "";
+                        } else {
+                            tr[i].style.display = "none";
+                        }
+                    }
 
                 }, 100);
             })
