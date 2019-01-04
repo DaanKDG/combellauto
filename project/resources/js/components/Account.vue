@@ -18,7 +18,7 @@
         </div>
 
         <div class="row">
-            <div class="col-lg-6">
+            <div class="col-lg-6 table_container">
                 <table class="ui selectable inverted table unstackable" id="overview">
                     <thead>
                         <tr>
@@ -28,7 +28,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr v-for="account in accounts" v-bind:key="account.id">
+                        <tr v-for="(account, index) in accounts" v-bind:key="account.id" :id="['index_' + index]" class="main_tr">
                             <th scope="row" class="text-center">{{ account.servicepack_id}}</th>
                             <td>
                                 <a class="domain-link" target="_blank" v-bind:href="'https://'+ account.domain_name">{{ account.domain_name}}</a>
@@ -40,6 +40,9 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="page_btn_div ui centered grid">
+                    <button class="ui button page_btn" v-for="page in pageCount" @click="sort([page])" :id="['page_' + page]">{{ page }}</button>
+                </div>
             </div>
             <div class="col-lg-6" id='example1'>
                 <div v-if='this.account.domain_name' class="" style="width: 100%;">
@@ -96,7 +99,13 @@ import ClipLoader from 'vue-spinner/src/Cliploader.vue'
                     max_size: null,
                     actual_size: null,
                     ip : null,
-                }
+                },
+                table: "",
+                n: 10,
+                firstLoad: true,
+                rowCount: "",
+                tr: [],
+                pageCount: ""
             }
         },
         mounted() {
@@ -131,15 +140,56 @@ import ClipLoader from 'vue-spinner/src/Cliploader.vue'
                 var filter = input.value.toUpperCase();
                 var list = document.getElementById("overview");
                 var tr = list.getElementsByTagName("tr");
+                var pagination = document.getElementsByClassName('page_btn_div')[0];
 
-                for (var i = 1; i < tr.length; i++) {
-                    var a = tr[i].getElementsByTagName("a")[0];
-                    var txtValue = a.textContent || a.innerText;
-                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                        tr[i].style.display = "";
-                    } else {
-                        tr[i].style.display = "none";
+                if (filter) {
+                    pagination.classList.add('d-none');
+
+                    for (var i = 1; i < tr.length; i++) {
+                        var a = tr[i].getElementsByTagName("a")[0];
+                        var txtValue = a.textContent || a.innerText;
+                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                            tr[i].classList.remove("d-none");
+                        } else {
+                            tr[i].classList.add("d-none");
+                        }
                     }
+                } else {
+                    pagination.classList.remove('d-none');
+                    this.sort(1);
+                }
+            },
+            sort(p) {
+                // pagination
+                var s = ((this.n * p) - this.n);
+                var all_rows = document.getElementsByClassName("main_tr");
+
+                var last_row = this.table.rows[ this.table.rows.length - 1 ].id;
+                var max_id = last_row.split('_')[1];
+
+                for (var i = 0; i < max_id + 1; i++) {
+                    var id = "index_" + i;
+                    var el = all_rows[i];
+                    
+                    if (el) {
+                        el.classList.add("d-none");
+
+                        if (i >= s && i < (s + this.n)) {
+                            el.classList.remove("d-none");
+                        }
+                    }
+                }
+
+                //set active page btn
+                var pg_btns = document.getElementsByClassName("page_btn");
+                var pg_btn = document.getElementById("page_" + p);
+
+                for (var j = 0; j < pg_btns.length; j++) {
+                    pg_btns[j].classList.remove("secondary");
+                }
+
+                if (pg_btn) {
+                    pg_btn.classList.add("secondary");
                 }
             }
         },
@@ -151,24 +201,19 @@ import ClipLoader from 'vue-spinner/src/Cliploader.vue'
 
                 var _this = this;
 
+                this.table = document.getElementById("overview");
+                this.rowCount = this.table.rows.length;
+                this.pageCount = Math.ceil(this.rowCount / this.n);
+
+                // apply pagination
+                if (this.firstLoad) {
+                    document.getElementById("page_1").classList.add('secondary');
+                    this.sort(1);
+                    this.firstLoad = false
+                }
+                
                 setTimeout(function() {
                     _this.accountsLoaded = true;
-
-                    var input = document.getElementById('search');
-                    var filter = input.value.toUpperCase();
-                    var list = document.getElementById("overview");
-                    var tr = list.getElementsByTagName("tr");
-
-                    for (var i = 1; i < tr.length; i++) {
-                        var a = tr[i].getElementsByTagName("a")[0];
-                        var txtValue = a.textContent || a.innerText;
-                        if (txtValue.toUpperCase().indexOf(filter) > -1) {
-                            tr[i].style.display = "";
-                        } else {
-                            tr[i].style.display = "none";
-                        }
-                    }
-
                 }, 100);
             })
         }

@@ -32,3 +32,4 @@ Vue.component('Status', require('./components/Status.vue'));
 const app = new Vue({
     el: '#app',
 });
+
