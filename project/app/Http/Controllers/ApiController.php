@@ -11,6 +11,8 @@ use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 use App\Imports\AccountsImport;
 use App\Account;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AccountCreated;
 
 
 class ApiController extends Controller
@@ -40,7 +42,7 @@ class ApiController extends Controller
             ];
             // should redirect before my AccountsImport, after redirect launch import
             (new AccountsImport($data))->import($request->file('file'));
-            
+
             return ['message' => 'Excel has been succesfully uploaded'];
         } 
     }
