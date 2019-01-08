@@ -80,6 +80,7 @@ export default {
           headers: { Accept: "application/json" }
         })
         .then(res => {
+          console.log(res.data);
           this.packs = res.data;
           this.pack = this.packs[0].name;
           this.loading = false;

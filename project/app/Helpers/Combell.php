@@ -22,7 +22,7 @@ class Combell
         return json_decode($res->getBody()->getContents(), true);
     }
 
-    public function postData($path_query, $body)
+    public static function postData($path_query, $body)
     {
         $client = new \Combell\Client(
             [

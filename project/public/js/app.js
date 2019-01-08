@@ -59084,6 +59084,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           Accept: "application/json"
         }
       }).then(function (res) {
+        console.log(res.data);
         _this.packs = res.data;
         _this.pack = _this.packs[0].name;
         _this.loading = false;
