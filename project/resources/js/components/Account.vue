@@ -41,7 +41,7 @@
                     </tbody>
                 </table>
                 <div class="page_btn_div ui centered grid">
-                    <button class="ui button page_btn" v-for="page in pageCount" @click="sort([page])" :id="['page_' + page]">{{ page }}</button>
+                    <button class="ui button page_btn mt-2" v-for="page in pageCount" v-bind:key="page.id" @click="sort([page])" :id="['page_' + page]">{{ page }}</button>
                 </div>
             </div>
             <div class="col-lg-6" id='example1'>

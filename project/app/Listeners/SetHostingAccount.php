@@ -4,9 +4,10 @@ namespace App\Listeners;
 
 use App\Events\AccountWasCreated;
 use App\Events\AccountWasUpdated;
-use Hackzilla\PasswordGenerator\Generator\ComputerPasswordGenerator;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use App\Helpers\GeneratePassword;
+use App\Helpers\Domain;
 
 class SetHostingAccount
 {
@@ -17,14 +18,10 @@ class SetHostingAccount
     }
 
     public function handle(AccountWasCreated $event)
-    { 
-        $generator = new ComputerPasswordGenerator();
-        $generator->setUppercase()->setLowercase()->setNumbers()->setSymbols(false)->setLength(20);
-        $password = $generator->generatePassword();
-
-        $domain = preg_replace('/\s+/', '.', mb_strtolower($event->account->name . ' mtantwerp.eu'));
-        $event->account->domain = $domain;
-        $event->account->password = $password;
+    {   
+        $domain = new Domain($event->account);
+        $event->account->domain = $domain->getDomain();
+        $event->account->password = GeneratePassword::password();
         $event->account->status = 'finished';
 
         $event->account->save();
