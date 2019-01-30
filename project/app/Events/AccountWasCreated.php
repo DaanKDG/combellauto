@@ -10,6 +10,8 @@ use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use App\Account;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AccountCreated;
 
 class AccountWasCreated
 {

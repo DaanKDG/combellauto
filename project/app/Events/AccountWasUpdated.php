@@ -10,6 +10,8 @@ use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\AccountCreated;
 
 class AccountWasUpdated implements ShouldBroadcast
 {
@@ -20,6 +22,7 @@ class AccountWasUpdated implements ShouldBroadcast
     public function __construct(Account $account)
     {
         $this->account = $account;
+        Mail::to($account)->send(new AccountCreated($account));
     }
 
     public function broadcastOn()
