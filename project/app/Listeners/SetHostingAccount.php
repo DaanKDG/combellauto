@@ -16,7 +16,7 @@ class SetHostingAccount
     {   
         $domain = new Domain($event->account);
         $password = GeneratePassword::password();
-
+  
         $status = $this->setHosting(['domain' => $domain->getDomain(), 'password' => $password]);
         \Log::debug($status);
 
@@ -25,13 +25,13 @@ class SetHostingAccount
             $ftp_user_part = str_replace('.','',$domain->getDomain()); 
             $ftp_user = $ftp_user_part . '@' . $ftp_user_part;
             $ftp_server = 'ftp' . '.' . $domain->getDomain();
+            // \Log::debug(['ftp_user' => $ftp_user, 'ftp_server' => $ftp_server, 'ftp_port' => 21, 'ftp_password' => GeneratePassword::password()]);
+            $event->account->domain = $domain->getDomain();
+            $event->account->password = GeneratePassword::password();
+            $event->account->status = $status;
+    
+            $event->account->save();
         }
-        // \Log::debug(['ftp_user' => $ftp_user, 'ftp_server' => $ftp_server, 'ftp_port' => 21, 'ftp_password' => GeneratePassword::password()]);
-        $event->account->domain = $domain->getDomain();
-        $event->account->password = GeneratePassword::password();
-        $event->account->status = $status;
-
-        $event->account->save();
 
         event(new AccountWasUpdated($event->account));
     }

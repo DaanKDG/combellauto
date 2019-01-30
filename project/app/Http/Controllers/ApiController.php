@@ -9,26 +9,20 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\AccountCreated;
 use App\Helpers\Combell;
+use App\Hosting;
+use App\Console\Commands\UpdateHostings;
 
 
 class ApiController extends Controller
 {
-    
     public function index()
+    {    
+        return Hosting::all();
+    }
+    public function updateApi() 
     {
-        $accounts = collect(Combell::getData(env('ACCOUNT_PATH') . '?take=200'))->map(function ($account, $key) {
-            $domain = $account['domain_name'];
-
-            if (strpos($domain, 'mtantwerp.eu') !== false) {
-                $name = str_replace('.mtantwerp.eu', '', $domain);
-                $name = str_replace('.', '-', $name);
-                $account['name'] = $name;
-
-                return $account;
-            }
-        })->filter()->all();
-
-        return $accounts;
+        dispatch(new updateHostings());
+        return Hosting::all();
     }
 
     public function create(Request $request)

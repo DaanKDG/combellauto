@@ -58098,13 +58098,34 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
       loading: true,
-      size: '100px',
-      color: '#1b1c1d',
+      size: "100px",
+      color: "#1b1c1d",
       accountsLoaded: false,
       accounts: [],
       account: {
@@ -58114,6 +58135,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         actual_size: null,
         ip: null
       },
+      updating: false,
+      clicked: false,
+      finished: false,
       table: "",
       n: 10,
       firstLoad: true,
@@ -58123,16 +58147,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
   mounted: function mounted() {
-    console.log('Component mounted.');
+    console.log("Component mounted.");
     this.getAccounts();
   },
   methods: {
     getAccounts: function getAccounts() {
       var _this2 = this;
 
-      axios.get('/api/accounts', {
+      axios.get("/api/accounts", {
         headers: {
-          'Accept': 'application/json'
+          Accept: "application/json"
         }
       }).then(function (res) {
         _this2.accounts = res.data;
@@ -58147,7 +58171,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
       axios.get("/api/accounts/".concat(account.name), {
         headers: {
-          'Accept': 'application/json'
+          Accept: "application/json"
         }
       }).then(function (res) {
         _this3.account.domain_name = res.data.domain_name;
@@ -58159,15 +58183,33 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         return console.log(error);
       });
     },
+    updateApi: function updateApi() {
+      var _this4 = this;
+
+      this.updating = true;
+      this.finished = false;
+      axios.get("/api/update/accounts", {
+        headers: {
+          Accept: "application/json"
+        }
+      }).then(function (res) {
+        _this4.accounts = res.data;
+      }).then(function () {
+        _this4.updating = false;
+        _this4.finished = true;
+      }).catch(function (error) {
+        return console.log(error);
+      });
+    },
     searchFunction: function searchFunction() {
-      var input = document.getElementById('search');
+      var input = document.getElementById("search");
       var filter = input.value.toUpperCase();
       var list = document.getElementById("overview");
       var tr = list.getElementsByTagName("tr");
-      var pagination = document.getElementsByClassName('page_btn_div')[0];
+      var pagination = document.getElementsByClassName("page_btn_div")[0];
 
       if (filter) {
-        pagination.classList.add('d-none');
+        pagination.classList.add("d-none");
 
         for (var i = 1; i < tr.length; i++) {
           var a = tr[i].getElementsByTagName("a")[0];
@@ -58180,7 +58222,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           }
         }
       } else {
-        pagination.classList.remove('d-none');
+        pagination.classList.remove("d-none");
         this.sort(1);
       }
     },
@@ -58189,7 +58231,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       var s = this.n * p - this.n;
       var all_rows = document.getElementsByClassName("main_tr");
       var last_row = this.table.rows[this.table.rows.length - 1].id;
-      var max_id = last_row.split('_')[1];
+      var max_id = last_row.split("_")[1];
 
       for (var i = 0; i < max_id + 1; i++) {
         var id = "index_" + i;
@@ -58229,7 +58271,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       this.pageCount = Math.ceil(this.rowCount / this.n); // apply pagination
 
       if (this.firstLoad) {
-        document.getElementById("page_1").classList.add('secondary');
+        document.getElementById("page_1").classList.add("secondary");
         this.sort(1);
         this.firstLoad = false;
       }
@@ -58731,6 +58773,33 @@ var render = function() {
       _vm._v(" "),
       _vm._m(0),
       _vm._v(" "),
+      _c("div", { staticClass: "update", staticStyle: { height: "40px" } }, [
+        _c(
+          "a",
+          {
+            staticClass: "ui primary button",
+            staticStyle: { height: "30px" },
+            on: {
+              click: function($event) {
+                _vm.updateApi()
+              }
+            }
+          },
+          [
+            _vm._v("Update API \n          "),
+            _c("i", {
+              class: this.updating ? "ml-2 notched circle loading icon" : "",
+              staticStyle: { "vertical-align": "middle" }
+            }),
+            _vm._v(" "),
+            _c("i", {
+              class: this.finished ? "ml-2 check circle icon" : "",
+              staticStyle: { "vertical-align": "middle" }
+            })
+          ]
+        )
+      ]),
+      _vm._v(" "),
       _c("div", { staticClass: "row" }, [
         _c("div", { staticClass: "col-md-6" }, [
           _vm.accountsLoaded
@@ -58792,7 +58861,7 @@ var render = function() {
                       _c(
                         "th",
                         { staticClass: "text-center", attrs: { scope: "row" } },
-                        [_vm._v(_vm._s(account.servicepack_id))]
+                        [_vm._v(_vm._s(account.servicepack))]
                       ),
                       _vm._v(" "),
                       _c("td", [
@@ -58802,10 +58871,10 @@ var render = function() {
                             staticClass: "domain-link",
                             attrs: {
                               target: "_blank",
-                              href: "https://" + account.domain_name
+                              href: "https://" + account.domain
                             }
                           },
-                          [_vm._v(_vm._s(account.domain_name))]
+                          [_vm._v(_vm._s(account.domain))]
                         )
                       ]),
                       _vm._v(" "),
@@ -58917,7 +58986,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("h3", { staticClass: "ui horizontal divider header mt-5" }, [
       _c("i", { staticClass: "server icon" }),
-      _vm._v("Hostings")
+      _vm._v("Hostings\n  ")
     ])
   },
   function() {
@@ -59235,22 +59304,20 @@ var render = function() {
               !this.finished
                 ? _c("div", { staticClass: "progress-message" }, [
                     _vm._v(
-                      "\r\n                         " +
+                      "\r\n                    " +
                         _vm._s(
                           this.accounts.length
                             ? "Hosting accounts aanmaken"
                             : "Wachten op data"
                         ) +
-                        "\r\n                    "
+                        "\r\n              "
                     )
                   ])
                 : _vm._e(),
               _vm._v(" "),
               this.finished
                 ? _c("div", { staticClass: "progress-message" }, [
-                    _vm._v(
-                      "\r\n                         Voltooid\r\n                    "
-                    )
+                    _vm._v("\r\n                    Voltooid\r\n              ")
                   ])
                 : _vm._e()
             ]),
