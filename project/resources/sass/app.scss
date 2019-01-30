@@ -136,3 +136,17 @@ table {
   right: 0;
   margin-top: 5px !important;
 }
+
+table#overview .old, table#overview .old:hover {
+  background-color: $red !important;
+}
+table#overview .old span {
+  display: inline-block !important;
+  float: right;
+  font-weight: bold;
+}
+table#overview .old span::after {
+  content: "";
+  clear: both;
+  display: table;
+}

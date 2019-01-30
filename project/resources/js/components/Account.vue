@@ -40,7 +40,7 @@
               v-for="(account, index) in accounts"
               v-bind:key="account.id"
               :id="['index_' + index]"
-              class="main_tr"
+              :class="['main_tr ' + parseInt(account.created_at)]"
             >
               <th scope="row" class="text-center">{{ account.servicepack}}</th>
               <td>
@@ -48,8 +48,7 @@
                   class="domain-link"
                   target="_blank"
                   v-bind:href="'https://'+ account.domain"
-                >{{ account.domain}}</a>
-                <!-- <a href="{{ url('/detail/' . $account['name'] ) }}">{{ $account["domain_name"] }}</a> -->
+                >{{ account.domain}}</a> <span class="d-none">VERLOPEN!</span>
               </td>
               <td align="center">
                 <a @click="showDetails(account)" class="ui inverted button">Details</a>
@@ -118,7 +117,8 @@ export default {
         servicepack_id: null,
         max_size: null,
         actual_size: null,
-        ip: null
+        ip: null,
+        created_at: null
       },
       updating: false,
       clicked: false,
@@ -236,6 +236,28 @@ export default {
       if (pg_btn) {
         pg_btn.classList.add("secondary");
       }
+    },
+    findOldAccounts() {
+      var trows = document.getElementsByClassName("main_tr");
+
+      for (var i = 0; i < trows.length; i++) {
+
+        if($(trows[i]).is('[class*=20]')) {
+          var classes = trows[i].classList.value.split(' ');
+          var len = classes.length;
+          var curYear = (new Date()).getFullYear();
+
+          for (var j = 0; j < len; j++) {
+            if (classes[j].startsWith("20")) {
+              var difference =  parseInt(curYear) -  parseInt(classes[j]);
+
+              if (difference > 2) {
+                trows[i].classList.add("old");
+              }
+            }
+          }
+        }
+      }
     }
   },
   components: {
@@ -259,9 +281,9 @@ export default {
       setTimeout(function() {
         _this.accountsLoaded = true;
       }, 100);
+
+      this.findOldAccounts();
     });
   }
 };
 </script>
-
-
