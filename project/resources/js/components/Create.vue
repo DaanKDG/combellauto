@@ -26,7 +26,7 @@
                   <i class="clipboard list icon"></i>Kies het pakket
                 </h3>
                 <select class="ui fluid dropdown" id="pack" v-model="pack">
-                  <option v-for="pack in packs" v-bind:key="pack.id">{{pack.name}}</option>
+                  <option v-for="pack in packs" v-bind:key="pack.id" :value='pack.id'>{{pack.name}}</option>
                 </select>
                 <div class="submit">
                   <button
@@ -65,7 +65,6 @@ export default {
     };
   },
   mounted() {
-    console.log("Component mounted.");
     this.getServices();
   },
   components: {
@@ -80,13 +79,8 @@ export default {
           headers: { Accept: "application/json" }
         })
         .then(res => {
-          console.log(res.data);
           this.packs = res.data;
-          this.pack = this.packs[0].name;
           this.loading = false;
-        })
-        .then(res => {
-          console.log(this.packs);
         })
         .catch(error => {
           console.log(error);
@@ -111,7 +105,6 @@ export default {
     },
     onFileUpload(e) {
       let files = e.target.files || e.dataTransfer.files;
-      console.log(files);
       if (files.length) {
         this.file = this.$refs.file.files[0];
         this.fileName = files[0].name;

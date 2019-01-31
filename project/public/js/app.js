@@ -58368,7 +58368,7 @@ exports = module.exports = __webpack_require__(48)(false);
 
 
 // module
-exports.push([module.i, "\n.v-spinner\n{\n/*\t  font-size: 10px; \n\n    width: 60px;\n    height: 40px;*/\n    /*margin: 25px auto;*/\n    text-align: center;\n}\n.v-spinner .v-clip\n{\n    -webkit-animation: v-clipDelay 0.75s 0s infinite linear;\n            animation: v-clipDelay 0.75s 0s infinite linear;\n    -webkit-animation-fill-mode: both;\n\t          animation-fill-mode: both;\n\n    display: inline-block;\n}\n@-webkit-keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n@keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n", ""]);
+exports.push([module.i, "\n.v-clip\n{\n  position: fixed;\n  z-index: 999;\n  height: 2em;\n  width: 2em;\n  overflow: show;\n  margin: auto;\n  top: 0;\n  left: 0;\n  bottom: 0;\n  right: 0;\n  text-align: center;\n}\n.v-spinner:before {\n  z-index:998;\n  content: '';\n  display: block;\n  position: fixed;\n  top: 0;\n  left: 0;\n  width: 100%;\n  height: 100%;\n  background-color: #f1f5f8;\n}\n.v-spinner .v-clip\n{\n    -webkit-animation: v-clipDelay 0.75s 0s infinite linear;\n            animation: v-clipDelay 0.75s 0s infinite linear;\n    -webkit-animation-fill-mode: both;\n\t          animation-fill-mode: both;\n\n    display: inline-block;\n}\n@-webkit-keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n@keyframes v-clipDelay\n{\n0%\n    {\n        -webkit-transform: rotate(0deg) scale(1);\n                transform: rotate(0deg) scale(1);\n}\n50%\n    {\n        -webkit-transform: rotate(180deg) scale(0.8);\n                transform: rotate(180deg) scale(0.8);\n}\n100%\n    {\n        -webkit-transform: rotate(360deg) scale(1);\n                transform: rotate(360deg) scale(1);\n}\n}\n", ""]);
 
 // exports
 
@@ -58758,7 +58758,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         borderStyle: 'solid',
         borderColor: this.color + ' ' + this.color + ' transparent',
         borderRadius: this.radius,
-        background: 'transparent'
+        background: 'transparant'
+      };
+    },
+    bgStyle: function bgStyle() {
+      return {
+        height: '100vh',
+        background: '#f1f5f8'
       };
     }
   }
@@ -58783,7 +58789,8 @@ var render = function() {
           expression: "loading"
         }
       ],
-      staticClass: "v-spinner"
+      staticClass: "v-spinner",
+      style: _vm.bgStyle
     },
     [_c("div", { staticClass: "v-clip", style: _vm.spinnerStyle })]
   )
@@ -59210,7 +59217,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     };
   },
   mounted: function mounted() {
-    console.log("Component mounted.");
     this.getServices();
   },
   components: {
@@ -59227,12 +59233,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           Accept: "application/json"
         }
       }).then(function (res) {
-        console.log(res.data);
         _this.packs = res.data;
-        _this.pack = _this.packs[0].name;
         _this.loading = false;
-      }).then(function (res) {
-        console.log(_this.packs);
       }).catch(function (error) {
         console.log(error);
         _this.loading = false;
@@ -59258,7 +59260,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
     onFileUpload: function onFileUpload(e) {
       var files = e.target.files || e.dataTransfer.files;
-      console.log(files);
 
       if (files.length) {
         this.file = this.$refs.file.files[0];
@@ -59564,9 +59565,11 @@ var render = function() {
                           }
                         },
                         _vm._l(_vm.packs, function(pack) {
-                          return _c("option", { key: pack.id }, [
-                            _vm._v(_vm._s(pack.name))
-                          ])
+                          return _c(
+                            "option",
+                            { key: pack.id, domProps: { value: pack.id } },
+                            [_vm._v(_vm._s(pack.name))]
+                          )
                         }),
                         0
                       ),
