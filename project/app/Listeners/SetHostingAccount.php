@@ -16,9 +16,8 @@ class SetHostingAccount
     {   
         $domain = new Domain($event->account);
         $password = GeneratePassword::password();
-  
+        // fix package 
         $status = $this->setHosting(['domain' => $domain->getDomain(), 'password' => $password]);
-        \Log::debug($status);
 
         if($status == 202)
         {
@@ -38,7 +37,7 @@ class SetHostingAccount
     public function setHosting(Array $account)
     {    
         $body = new \stdClass();
-        $body->servicepack_id = 14491;
+        $body->servicepack_id = $account['package'];
         $body->identifier = $account['domain'];
         $body->ftp_password = $account['password'];
 
