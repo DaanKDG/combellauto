@@ -24,7 +24,7 @@ class AccountsImport implements ToCollection, withHeadingRow
     {        
        $accounts = $rows->filter()->map(function ($row, $key)  {
           return [
-                'name' => mb_convert_encoding($row['student'], "UTF-8", mb_detect_encoding($row['student'], "UTF-8, ISO-8859-1, ISO-8859-15", true)),
+                'name' => str_replace( '.' , ' ' , strtok($row['school_e_mailadres'] , '@') ) ,
                 'email'=> $row['school_e_mailadres'],
                 'package' => $this->data['package'],
             ];
@@ -32,9 +32,11 @@ class AccountsImport implements ToCollection, withHeadingRow
          
         Account::insert($accounts);
 
-        Account::where('status', 'created')->get()->each(function($account, $key){
-            event(new AccountWasCreated($account));
-        });
+        Account::where('status', 'created')
+                    ->get()
+                    ->each(function($account, $key){
+                        event(new AccountWasCreated($account));
+                 });
 
     }
 }

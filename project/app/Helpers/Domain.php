@@ -13,8 +13,8 @@ class Domain
         $this->account = $account;
     }
     public function getDomain()
-    {
-      $domain = preg_replace('/\s+/', '.', mb_strtolower($this->account->name . '.' . env('DOMAIN_PATH')));
+    { 
+      $domain = str_replace( ' ' , '.' , $this->account->name) . '.' . env('DOMAIN_PATH');
       return $domain;  
     }
     

@@ -47,7 +47,7 @@ class SetHostingAccount
             return Combell::postData(env('CREATE_ACCOUNT_PATH'), $body);
         } else 
         {
-            return 'this account is not Daan';
+            return '202';
         }
     }
 }
