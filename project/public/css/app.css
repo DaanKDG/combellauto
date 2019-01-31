@@ -11590,18 +11590,29 @@ table {
   margin-top: 5px !important;
 }
 
+table#overview td {
+  position: relative;
+}
+
 table#overview .old,
 table#overview .old:hover {
   background-color: #e3342f !important;
 }
 
-table#overview .old span {
+table#overview .almost_old td:last-of-type {
+  border-right: 2px solid #e3342f !important;
+}
+
+table#overview .old .addYearBtn {
   display: inline-block !important;
-  float: right;
+  position: absolute;
+  top: 8px;
+  right: 0;
+  font-size: 10px;
   font-weight: bold;
 }
 
-table#overview .old span::after {
+table#overview .old .addYearBtn::after {
   content: "";
   clear: both;
   display: table;

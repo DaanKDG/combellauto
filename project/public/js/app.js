@@ -58118,6 +58118,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
@@ -58133,7 +58138,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         max_size: null,
         actual_size: null,
         ip: null,
-        created_at: null
+        created_at: null,
+        extra_years: null
       },
       updating: false,
       clicked: false,
@@ -58143,7 +58149,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
       firstLoad: true,
       rowCount: "",
       tr: [],
-      pageCount: ""
+      pageCount: "",
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
   mounted: function mounted() {
@@ -58266,18 +58273,39 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
           var classes = trows[i].classList.value.split(' ');
           var len = classes.length;
           var curYear = new Date().getFullYear();
+          var studentYear = 0;
+          var extraYears = 0;
+          var difference = 0;
 
           for (var j = 0; j < len; j++) {
             if (classes[j].startsWith("20")) {
-              var difference = parseInt(curYear) - parseInt(classes[j]);
+              studentYear = parseInt(classes[j]);
+            }
 
-              if (difference > 2) {
-                trows[i].classList.add("old");
-              }
+            if (classes[j].startsWith("extra_years")) {
+              extraYears = parseInt(classes[j].substr(-1));
+            }
+          }
+
+          var difference = parseInt(curYear) - studentYear;
+          var difference2 = difference - extraYears;
+          console.log('extra years: ' + extraYears);
+          console.log('dif: ' + difference);
+          console.log('dif2: ' + difference2);
+
+          if (difference > 3) {
+            if (difference2 <= 3) {
+              trows[i].classList.add("almost_old");
+            } else {
+              trows[i].classList.add("old");
             }
           }
         }
       }
+    },
+    addYear: function addYear($event) {
+      var el = $event.target;
+      console.log($(el).parent().parent());
     }
   },
   components: {
@@ -58869,7 +58897,12 @@ var render = function() {
                     "tr",
                     {
                       key: account.id,
-                      class: ["main_tr " + parseInt(account.created_at)],
+                      class: [
+                        "main_tr " +
+                          parseInt(account.created_at) +
+                          " extra_years_" +
+                          account.extra_years
+                      ],
                       attrs: { id: ["index_" + index] }
                     },
                     [
@@ -58892,8 +58925,30 @@ var render = function() {
                           [_vm._v(_vm._s(account.domain))]
                         ),
                         _vm._v(" "),
-                        _c("span", { staticClass: "d-none" }, [
-                          _vm._v("VERLOPEN!")
+                        _c("form", { attrs: { action: "", method: "POST" } }, [
+                          _c("input", {
+                            attrs: { type: "hidden", name: "_token" },
+                            domProps: { value: _vm.csrf }
+                          }),
+                          _vm._v(" "),
+                          _c("input", {
+                            attrs: { type: "hidden", name: "hosting_id" },
+                            domProps: { value: account.id }
+                          }),
+                          _vm._v(" "),
+                          _c(
+                            "button",
+                            {
+                              staticClass:
+                                "d-none addYearBtn ui inverted button",
+                              on: {
+                                click: function($event) {
+                                  _vm.addYear($event)
+                                }
+                              }
+                            },
+                            [_vm._v("VERLENGEN")]
+                          )
                         ])
                       ]),
                       _vm._v(" "),

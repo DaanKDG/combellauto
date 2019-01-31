@@ -40,7 +40,7 @@
               v-for="(account, index) in accounts"
               v-bind:key="account.id"
               :id="['index_' + index]"
-              :class="['main_tr ' + parseInt(account.created_at)]"
+              :class="['main_tr ' + parseInt(account.created_at) + ' extra_years_' + account.extra_years]"
             >
               <th scope="row" class="text-center">{{ account.servicepack}}</th>
               <td>
@@ -48,7 +48,12 @@
                   class="domain-link"
                   target="_blank"
                   v-bind:href="'https://'+ account.domain"
-                >{{ account.domain}}</a> <span class="d-none">VERLOPEN!</span>
+                >{{ account.domain}}</a>
+                <form action="" method="POST">
+                  <input type="hidden" name="_token" :value="csrf">
+                  <input type="hidden" name="hosting_id" :value="account.id">
+                  <button @click="addYear($event)" class="d-none addYearBtn ui inverted button">VERLENGEN</button>
+                </form>
               </td>
               <td align="center">
                 <a @click="showDetails(account)" class="ui inverted button">Details</a>
@@ -118,7 +123,8 @@ export default {
         max_size: null,
         actual_size: null,
         ip: null,
-        created_at: null
+        created_at: null,
+        extra_years: null
       },
       updating: false,
       clicked: false,
@@ -128,7 +134,8 @@ export default {
       firstLoad: true,
       rowCount: "",
       tr: [],
-      pageCount: ""
+      pageCount: "",
+      csrf: document.querySelector('meta[name="csrf-token"]').getAttribute('content')
     };
   },
   mounted() {
@@ -246,18 +253,40 @@ export default {
           var classes = trows[i].classList.value.split(' ');
           var len = classes.length;
           var curYear = (new Date()).getFullYear();
+          var studentYear = 0;
+          var extraYears = 0;
+          var difference = 0;
 
           for (var j = 0; j < len; j++) {
             if (classes[j].startsWith("20")) {
-              var difference =  parseInt(curYear) -  parseInt(classes[j]);
+              studentYear = parseInt(classes[j]);
+            }
+            if (classes[j].startsWith("extra_years")) {
+              extraYears = parseInt(classes[j].substr(-1));
+            }
+          }
 
-              if (difference > 2) {
-                trows[i].classList.add("old");
-              }
+          var difference =  parseInt(curYear) - studentYear;
+          var difference2 = difference - extraYears;
+
+          console.log('extra years: ' + extraYears);
+          console.log('dif: ' + difference);
+          console.log('dif2: ' + difference2);
+
+          if (difference > 3) {
+            if (difference2 <= 3) {
+              trows[i].classList.add("almost_old");
+            } else {
+              trows[i].classList.add("old");
             }
           }
         }
       }
+    },
+    addYear($event) {
+      var el = $event.target;
+
+      console.log($(el).parent().parent());
     }
   },
   components: {
