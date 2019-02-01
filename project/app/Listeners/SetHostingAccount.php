@@ -12,15 +12,20 @@ use App\Helpers\Combell;
 
 class SetHostingAccount
 {
+    private $password;
+
+    public function __construct()
+    {
+        $this->password = GeneratePassword::password();
+    }
     public function handle(AccountWasCreated $event)
     {   
         $domain = new Domain($event->account);
         $domain_name = $domain->getDomain();
-        $password = GeneratePassword::password();
 
         $event->account->update([
             'domain'   => $domain_name,
-            'password' => $password,
+            'password' => $this->password,
         ]);
 
         $status = $this->setHosting($event->account);
