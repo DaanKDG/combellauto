@@ -15,27 +15,31 @@ class SetHostingAccount
     public function handle(AccountWasCreated $event)
     {   
         $domain = new Domain($event->account);
+        $domain_name = $domain->getDomain();
         $password = GeneratePassword::password();
-        // fix package 
-        $status = $this->setHosting(['domain' => $domain->getDomain(), 'password' => $password]);
+
+        $event->account->update([
+            'domain'   => $domain_name,
+            'password' => $password,
+        ]);
+
+        $status = $this->setHosting($event->account);
 
         if($status == 202)
         {
-            $ftp_user_part = str_replace('.','',$domain->getDomain()); 
-            $ftp_user = $ftp_user_part . '@' . $ftp_user_part;
-            $ftp_server = 'ftp' . '.' . $domain->getDomain();
-            // \Log::debug(['ftp_user' => $ftp_user, 'ftp_server' => $ftp_server, 'ftp_port' => 21, 'ftp_password' => GeneratePassword::password()]);
-            $event->account->domain = $domain->getDomain();
-            $event->account->password = GeneratePassword::password();
-            $event->account->status = $status;
-    
-            $event->account->save();
+            $ftp_user_part  = str_replace('.' , '' , $domain_name); 
+            $event->account->update([
+                'status'     => $status,
+                'ftp_user'   => $ftp_user_part . '@' . $ftp_user_part,
+                'ftp_server' => 'ftp' . '.' . $domain_name,
+                'ftp_port'   => 21
+            ]);
         }
 
         event(new AccountWasUpdated($event->account));
     }
-    public function setHosting(Array $account)
-    {    
+    public function setHosting(Object $account)
+    {
         $body = new \stdClass();
         $body->servicepack_id = $account['package'];
         $body->identifier = $account['domain'];

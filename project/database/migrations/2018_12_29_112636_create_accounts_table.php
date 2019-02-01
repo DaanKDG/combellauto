@@ -15,7 +15,10 @@ class CreateAccountsTable extends Migration
             $table->string('status')->default('created');
             $table->string('package');
             $table->string('domain')->nullable();
-            $table->string('password')->nullable();  
+            $table->string('password')->nullable();
+            $table->string('ftp_user')->nullable();   
+            $table->string('ftp_server')->nullable();
+            $table->integer('ftp_port')->nullable();     
             $table->timestamps();
         });
     }

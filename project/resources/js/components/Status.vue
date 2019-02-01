@@ -30,8 +30,6 @@
 
   </div>
 </template>
-
-
 <script>
 export default {
 name: 'status',
