@@ -22,7 +22,7 @@ class AccountWasUpdated implements ShouldBroadcast
     public function __construct(Account $account)
     {
         $this->account = $account;
-        // Mail::to($account)->send(new AccountCreated($account));
+        Mail::to($account)->send(new AccountCreated($account));
     }
 
     public function broadcastOn()

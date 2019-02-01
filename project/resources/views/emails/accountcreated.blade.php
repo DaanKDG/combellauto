@@ -7,6 +7,8 @@
 		<p><strong>E-mail:</strong> {{ $account->email }}</p>
 		<p><strong>Domein:</strong> {{ $account->domain }}</p>
 		<p><strong>Gebruikersnaam:</strong> {{ $account->username }}</p>
+		<p><strong>FTP gebruiker:</strong> {{ $account->ftp_user }}</p>
+		<p><strong>FTP server:</strong> {{ $account->ftp_server }}</p>
 	</div>
 
 	<div>

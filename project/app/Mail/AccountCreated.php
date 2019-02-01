@@ -21,7 +21,7 @@ class AccountCreated extends Mailable
         $this->account = $account;
 
         $uname = $this->account->name;
-        $uname = strtolower(str_replace(" ", ".", $uname));
+        $uname = strtolower(str_replace(" ", "", $uname));
 
         $this->account->username = $uname;
     }
